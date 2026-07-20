@@ -765,7 +765,13 @@ namespace Bloxstrap
         private async Task<bool> CheckForUpdates()
         {
             const string LOG_IDENT = "Bootstrapper::CheckForUpdates";
-            
+
+            // Lovestrap fork: self-update is disabled. The upstream release feed
+            // (App.ProjectRepository) points at Bloxstrap, so auto-updating would
+            // replace this rebranded build with stock Bloxstrap. Skip entirely.
+            App.Logger.WriteLine(LOG_IDENT, "Self-update is disabled in this build");
+            return false;
+#pragma warning disable CS0162 // unreachable code left intentionally for upstream diffs
             // don't update if there's another instance running (likely running in the background)
             // i don't like this, but there isn't much better way of doing it /shrug
             if (Process.GetProcessesByName(App.ProjectName).Length > 1)

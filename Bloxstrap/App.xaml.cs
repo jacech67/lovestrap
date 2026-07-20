@@ -14,11 +14,11 @@ namespace Bloxstrap
     public partial class App : Application
     {
 #if QA_BUILD
-        public const string ProjectName = "Bloxstrap-QA";
+        public const string ProjectName = "Lovestrap-QA";
 #else
-        public const string ProjectName = "Bloxstrap";
+        public const string ProjectName = "Lovestrap";
 #endif
-        public const string ProjectOwner = "Bloxstrap";
+        public const string ProjectOwner = "Lovestrap";
         public const string ProjectRepository = "bloxstraplabs/bloxstrap";
         public const string ProjectDownloadLink = "https://bloxstraplabs.com";
         public const string ProjectHelpLink = "https://bloxstraplabs.com/wiki/help/";
