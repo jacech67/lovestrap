@@ -24,7 +24,52 @@ namespace Bloxstrap
 
             { "Rendering.TextureQuality.OverrideEnabled", "DFFlagTextureQualityOverrideEnabled" },
             { "Rendering.TextureQuality.Level", "DFIntTextureQualityOverride" },
+
+            // mesh/geometry level-of-detail switching distances (higher = meshes stay detailed further away)
+            { "Rendering.MeshQuality.L12", "DFIntCSGLevelOfDetailSwitchingDistanceL12" },
+            { "Rendering.MeshQuality.L23", "DFIntCSGLevelOfDetailSwitchingDistanceL23" },
+            { "Rendering.MeshQuality.L34", "DFIntCSGLevelOfDetailSwitchingDistanceL34" },
         };
+
+        // Roblox default LOD switching distances; the scale multiplies these
+        private static readonly Dictionary<string, int> MeshQualityBase = new()
+        {
+            { "Rendering.MeshQuality.L12", 250 },
+            { "Rendering.MeshQuality.L23", 500 },
+            { "Rendering.MeshQuality.L34", 750 },
+        };
+
+        // scale is a 0-100 slider: 0 = disabled (Roblox default), 50 = stock distances, 100 = 2x detail distance
+        public const int MeshQualityMax = 100;
+
+        public void SetMeshQuality(int scale)
+        {
+            if (scale <= 0)
+            {
+                // disabled - remove the override flags entirely
+                foreach (var pair in MeshQualityBase)
+                    SetValue(PresetFlags[pair.Key], null);
+
+                return;
+            }
+
+            double multiplier = scale / 50.0;
+
+            foreach (var pair in MeshQualityBase)
+                SetValue(PresetFlags[pair.Key], (int)Math.Round(pair.Value * multiplier));
+        }
+
+        public int GetMeshQuality()
+        {
+            string? raw = GetPreset("Rendering.MeshQuality.L12");
+
+            if (raw is null || !Int32.TryParse(raw, out int value))
+                return 0;
+
+            int scale = (int)Math.Round((double)value / MeshQualityBase["Rendering.MeshQuality.L12"] * 50.0);
+
+            return Math.Clamp(scale, 0, MeshQualityMax);
+        }
 
         public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes => new Dictionary<MSAAMode, string?>
         {

@@ -266,28 +266,9 @@ namespace Bloxstrap.UI.Elements.Settings.Pages
 
         private bool ValidateFlagEntry(string name, string value)
         {
-            string lowerValue = value.ToLowerInvariant();
-            string errorMessage = "";
-
-            if (!_validPrefixes.Any(name.StartsWith))
-                errorMessage = Strings.Menu_FastFlagEditor_InvalidPrefix;
-            else if (!name.All(x => char.IsLetterOrDigit(x) || x == '_'))
-                errorMessage = Strings.Menu_FastFlagEditor_InvalidCharacter;
-            
-            if (name.EndsWith("_PlaceFilter") || name.EndsWith("_DataCenterFilter"))
-                errorMessage = !ValidateFilter(name, value) ? Strings.Menu_FastFlagEditor_InvalidPlaceFilter : ""; 
-            else if ((name.StartsWith("FInt") || name.StartsWith("DFInt")) && !Int32.TryParse(value, out _))
-                errorMessage = Strings.Menu_FastFlagEditor_InvalidNumberValue;
-            else if ((name.StartsWith("FFlag") || name.StartsWith("DFFlag")) && lowerValue != "true" && lowerValue != "false")
-                errorMessage = Strings.Menu_FastFlagEditor_InvalidBoolValue;
-            
-            if (!String.IsNullOrEmpty(errorMessage))
-            { 
-                Frontend.ShowMessageBox(String.Format(errorMessage, name), MessageBoxImage.Error);
-                return false;
-            }
-
-            return true;
+            // All fastflag restrictions removed - any flag name/value combination is accepted.
+            // The only hard requirement is a non-empty flag name.
+            return !String.IsNullOrWhiteSpace(name);
         }
 
         private bool ValidateFilter(string name, string value)
