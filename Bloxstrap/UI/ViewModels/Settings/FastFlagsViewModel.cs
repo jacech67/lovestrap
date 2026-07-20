@@ -59,6 +59,12 @@ namespace Bloxstrap.UI.ViewModels.Settings
                 }
             }
         }
+        public int MeshQualityScale
+        {
+            get => App.FastFlags.GetMeshQuality();
+            set => App.FastFlags.SetMeshQuality(value);
+        }
+
         public bool ResetConfiguration
         {
             get => _preResetFlags is not null;

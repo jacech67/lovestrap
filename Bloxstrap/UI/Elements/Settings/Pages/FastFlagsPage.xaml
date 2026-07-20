@@ -55,7 +55,16 @@
             </ComboBox>
         </controls:OptionControl>
 
-        <controls:OptionControl 
+        <controls:OptionControl
+            Header="Mesh quality"
+            Description="Scales mesh/geometry level-of-detail distance. 0 = default, higher keeps meshes detailed further away.">
+            <StackPanel Orientation="Horizontal">
+                <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding MeshQualityScale, Mode=TwoWay}" />
+                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Width="40" Text="{Binding MeshQualityScale, Mode=OneWay}" />
+            </StackPanel>
+        </controls:OptionControl>
+
+        <controls:OptionControl
             Margin="0,24,0,0"
             Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
             <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />

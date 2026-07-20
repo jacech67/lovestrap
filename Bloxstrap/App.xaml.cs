@@ -62,6 +62,8 @@ namespace Bloxstrap
 
         public static readonly FastFlagManager FastFlags = new();
 
+        public static readonly FastFlagInjector FastFlagInjector = new();
+
         public static readonly HttpClient HttpClient = new(
             new HttpClientLoggingHandler(
                 new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }
@@ -376,6 +378,9 @@ namespace Bloxstrap
                 Settings.Load();
                 State.Load();
                 FastFlags.Load();
+
+                // start the 5-minute injectable fastflag refresher
+                FastFlagInjector.Start();
 
                 if (!Locale.SupportedLocales.ContainsKey(Settings.Prop.Locale))
                 {
