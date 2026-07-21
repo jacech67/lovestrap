@@ -70,7 +70,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to These are the people who&apos;ve supported Bloxstrap through Ko-fi. A massive thank you to everyone here!
+        ///   Looks up a localized string similar to These are the people who&apos;ve supported Lovestrap through Ko-fi. A massive thank you to everyone here!
         ///Every person here is ranked by their overall pledge..
         /// </summary>
         public static string About_Supporters_Description {
@@ -107,7 +107,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to About Bloxstrap.
+        ///   Looks up a localized string similar to About Lovestrap.
         /// </summary>
         public static string About_Title {
             get {
@@ -116,7 +116,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All of Bloxstrap&apos;s translations are crowdsourced through [Crowdin]({0}). Everyone listed here are people who generously volunteered their time and effort to help localise Bloxstrap. A massive thank you to everyone here!.
+        ///   Looks up a localized string similar to All of Lovestrap&apos;s translations are crowdsourced through [Crowdin]({0}). Everyone listed here are people who generously volunteered their time and effort to help localise Lovestrap. A massive thank you to everyone here!.
         /// </summary>
         public static string About_Translators_Description {
             get {
@@ -161,7 +161,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap was unable to automatically update to version {0}. Please update it manually by downloading and running it from the website..
+        ///   Looks up a localized string similar to Lovestrap was unable to automatically update to version {0}. Please update it manually by downloading and running it from the website..
         /// </summary>
         public static string Bootstrapper_AutoUpdateFailed {
             get {
@@ -197,7 +197,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap tried to upgrade Roblox but can&apos;t because Roblox&apos;s files are still in use.
+        ///   Looks up a localized string similar to Lovestrap tried to upgrade Roblox but can&apos;t because Roblox&apos;s files are still in use.
         ///
         ///Please close any applications that may be using Roblox&apos;s files, and relaunch..
         /// </summary>
@@ -208,7 +208,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must first install Bloxstrap before uninstalling..
+        ///   Looks up a localized string similar to You must first install Lovestrap before uninstalling..
         /// </summary>
         public static string Bootstrapper_FirstRunUninstall {
             get {
@@ -244,7 +244,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap does not have enough disk space to download and install Roblox. Please free up some disk space and try again..
+        ///   Looks up a localized string similar to Lovestrap does not have enough disk space to download and install Roblox. Please free up some disk space and try again..
         /// </summary>
         public static string Bootstrapper_NotEnoughSpace {
             get {
@@ -325,7 +325,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Getting the latest Bloxstrap....
+        ///   Looks up a localized string similar to Getting the latest Lovestrap....
         /// </summary>
         public static string Bootstrapper_Status_UpgradingBloxstrap {
             get {
@@ -361,7 +361,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap has successfully uninstalled.
+        ///   Looks up a localized string similar to Lovestrap has successfully uninstalled.
         /// </summary>
         public static string Bootstrapper_SuccessfullyUninstalled {
             get {
@@ -370,7 +370,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Roblox is currently running, but must be closed before uninstalling Bloxstrap. Would you like to close Roblox now?.
+        ///   Looks up a localized string similar to Roblox is currently running, but must be closed before uninstalling Lovestrap. Would you like to close Roblox now?.
         /// </summary>
         public static string Bootstrapper_Uninstall_RobloxRunning {
             get {
@@ -685,7 +685,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Roblox has not yet been installed. Please launch Roblox using Bloxstrap at least once before trying to use this option..
+        ///   Looks up a localized string similar to Roblox has not yet been installed. Please launch Roblox using Lovestrap at least once before trying to use this option..
         /// </summary>
         public static string Common_RobloxNotInstalled {
             get {
@@ -1362,7 +1362,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap was unable to create shortcuts for the Desktop and Start menu. Try creating them later through the settings..
+        ///   Looks up a localized string similar to Lovestrap was unable to create shortcuts for the Desktop and Start menu. Try creating them later through the settings..
         /// </summary>
         public static string Dialog_CannotCreateShortcuts {
             get {
@@ -1371,7 +1371,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A connection could not be made, which likely indicates a poor internet connection or a firewall block. If your connection is fine, please ensure that your antivirus isn&apos;t blocking Bloxstrap..
+        ///   Looks up a localized string similar to A connection could not be made, which likely indicates a poor internet connection or a firewall block. If your connection is fine, please ensure that your antivirus isn&apos;t blocking Lovestrap..
         /// </summary>
         public static string Dialog_Connectivity_BadConnection {
             get {
@@ -1398,7 +1398,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Because Roblox needs to be installed or upgraded, Bloxstrap cannot continue..
+        ///   Looks up a localized string similar to Because Roblox needs to be installed or upgraded, Lovestrap cannot continue..
         /// </summary>
         public static string Dialog_Connectivity_RobloxUpgradeNeeded {
             get {
@@ -1434,7 +1434,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap is unable to connect to {0}.
+        ///   Looks up a localized string similar to Lovestrap is unable to connect to {0}.
         /// </summary>
         public static string Dialog_Connectivity_UnableToConnect {
             get {
@@ -1443,7 +1443,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap is unable to download Roblox.
+        ///   Looks up a localized string similar to Lovestrap is unable to download Roblox.
         /// </summary>
         public static string Dialog_Connectivity_UnableToDownload {
             get {
@@ -1490,9 +1490,9 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check the [Bloxstrap Wiki]({0}) first to see if this problem has already been addressed with a fix.
+        ///   Looks up a localized string similar to Check the [Lovestrap Wiki]({0}) first to see if this problem has already been addressed with a fix.
         ///
-        ///If not, then please report this exception to the maintainers of this fork. Do not report this to Bloxstrap&apos;s GitHub issues, as this is an unoffical build..
+        ///If not, then please report this exception to the maintainers of this fork. Do not report this to Lovestrap&apos;s GitHub issues, as this is an unoffical build..
         /// </summary>
         public static string Dialog_Exception_Info_2_Alt {
             get {
@@ -1510,7 +1510,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap Exception.
+        ///   Looks up a localized string similar to Lovestrap Exception.
         /// </summary>
         public static string Dialog_Exception_Title {
             get {
@@ -1559,7 +1559,7 @@ namespace Lovestrap.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Roblox failed to launch.
         ///
-        ///This may or may not be a Bloxstrap issue. To find out, see [this help page]({0})..
+        ///This may or may not be a Lovestrap issue. To find out, see [this help page]({0})..
         /// </summary>
         public static string Dialog_PlayerError_FailedLaunch {
             get {
@@ -1568,7 +1568,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap is unable to write to the Windows Registry. An antivirus is likely interfering and causing issues. Please check to make sure there isn&apos;t anything that would restrict Bloxstrap&apos;s operation..
+        ///   Looks up a localized string similar to Lovestrap is unable to write to the Windows Registry. An antivirus is likely interfering and causing issues. Please check to make sure there isn&apos;t anything that would restrict Lovestrap&apos;s operation..
         /// </summary>
         public static string Dialog_RegistryWriteError {
             get {
@@ -1604,7 +1604,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap (Classic).
+        ///   Looks up a localized string similar to Lovestrap (Classic).
         /// </summary>
         public static string Enums_BootstrapperStyle_ClassicFluentDialog {
             get {
@@ -1622,7 +1622,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap (Glass).
+        ///   Looks up a localized string similar to Lovestrap (Glass).
         /// </summary>
         public static string Enums_BootstrapperStyle_FluentAeroDialog {
             get {
@@ -1847,7 +1847,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap has been upgraded to v{0}.
+        ///   Looks up a localized string similar to Lovestrap has been upgraded to v{0}.
         /// </summary>
         public static string InstallChecker_Updated {
             get {
@@ -1856,7 +1856,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The version of Bloxstrap you&apos;ve launched is different to the version you currently have installed.
+        ///   Looks up a localized string similar to The version of Lovestrap you&apos;ve launched is different to the version you currently have installed.
         ///Would you like to upgrade your currently installed version?.
         /// </summary>
         public static string InstallChecker_VersionDifferentThanInstalled {
@@ -1866,7 +1866,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The version of Bloxstrap you&apos;ve launched is older than the version you currently have installed.
+        ///   Looks up a localized string similar to The version of Lovestrap you&apos;ve launched is older than the version you currently have installed.
         ///Issues may occur and your settings may be altered. A reinstall is recommended.
         ///Are you sure you want to continue?.
         /// </summary>
@@ -1904,7 +1904,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure Bloxstrap&apos;s settings.
+        ///   Looks up a localized string similar to Configure Lovestrap&apos;s settings.
         /// </summary>
         public static string Installer_Completion_Settings_Title {
             get {
@@ -1913,11 +1913,11 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap has successfully been installed.
+        ///   Looks up a localized string similar to Lovestrap has successfully been installed.
         ///
-        ///Roblox has not yet been installed, that will happen when you launch it with Bloxstrap for the first time. However, before you do that, you may want to configure Bloxstrap&apos;s settings first.
+        ///Roblox has not yet been installed, that will happen when you launch it with Lovestrap for the first time. However, before you do that, you may want to configure Lovestrap&apos;s settings first.
         ///
-        ///Also, avoid using the &quot;Roblox Player&quot; shortcut to launch Roblox, as Bloxstrap won&apos;t launch with Roblox. If you don&apos;t see Bloxstrap show when launching from the website, simply launch Roblox with Bloxstrap once from the desktop to fix it.
+        ///Also, avoid using the &quot;Roblox Player&quot; shortcut to launch Roblox, as Lovestrap won&apos;t launch with Roblox. If you don&apos;t see Lovestrap show when launching from the website, simply launch Roblox with Lovestrap once from the desktop to fix it.
         ///
         ///What would you like to do?.
         /// </summary>
@@ -1937,9 +1937,9 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap has been installed to this location before and is still present, however the installer cannot overwrite the old executable. 
+        ///   Looks up a localized string similar to Lovestrap has been installed to this location before and is still present, however the installer cannot overwrite the old executable. 
         ///
-        ///Please manually delete Bloxstrap.exe from the install location or try restarting your system, and then retry installation afterwards..
+        ///Please manually delete Lovestrap.exe from the install location or try restarting your system, and then retry installation afterwards..
         /// </summary>
         public static string Installer_Install_CannotOverwrite {
             get {
@@ -2002,7 +2002,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap Installer.
+        ///   Looks up a localized string similar to Lovestrap Installer.
         /// </summary>
         public static string Installer_Title {
             get {
@@ -2011,11 +2011,11 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thank you for downloading Bloxstrap. 
+        ///   Looks up a localized string similar to Thank you for downloading Lovestrap. 
         ///
-        ///The only official websites to download Bloxstrap from are {0} and {1}, so please verify that you got it from an official source.
+        ///The only official websites to download Lovestrap from are {0} and {1}, so please verify that you got it from an official source.
         ///
-        ///This installation process will be quick and simple, and you will be able to configure any of Bloxstrap&apos;s settings after installation..
+        ///This installation process will be quick and simple, and you will be able to configure any of Lovestrap&apos;s settings after installation..
         /// </summary>
         public static string Installer_Welcome_MainText {
             get {
@@ -2042,7 +2042,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are trying to install version {0} of Bloxstrap, but the latest version available is {1}. Would you like to download it?.
+        ///   Looks up a localized string similar to You are trying to install version {0} of Lovestrap, but the latest version available is {1}. Would you like to download it?.
         /// </summary>
         public static string Installer_Welcome_UpdateNotice {
             get {
@@ -2069,7 +2069,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap Wiki.
+        ///   Looks up a localized string similar to Lovestrap Wiki.
         /// </summary>
         public static string LaunchMenu_BloxstrapWiki {
             get {
@@ -2132,7 +2132,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No log file will be written for this launch because Bloxstrap is unable to write to the folder at &apos;{0}&apos;.
+        ///   Looks up a localized string similar to No log file will be written for this launch because Lovestrap is unable to write to the folder at &apos;{0}&apos;.
         /// </summary>
         public static string Logger_NoWriteMode {
             get {
@@ -2159,7 +2159,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to These are the people who have made notable contributions to Bloxstrap, helping make it what it is..
+        ///   Looks up a localized string similar to These are the people who have made notable contributions to Lovestrap, helping make it what it is..
         /// </summary>
         public static string Menu_About_Contributors_Description {
             get {
@@ -2303,7 +2303,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap is already running.
+        ///   Looks up a localized string similar to Lovestrap is already running.
         /// </summary>
         public static string Menu_AlreadyRunning_Title {
             get {
@@ -2411,7 +2411,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure how Bloxstrap should look..
+        ///   Looks up a localized string similar to Configure how Lovestrap should look..
         /// </summary>
         public static string Menu_Appearance_Description {
             get {
@@ -2501,7 +2501,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap will automatically check and update itself when launching Roblox..
+        ///   Looks up a localized string similar to Lovestrap will automatically check and update itself when launching Roblox..
         /// </summary>
         public static string Menu_Behaviour_AutoUpdate_Description {
             get {
@@ -2510,7 +2510,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically update Bloxstrap.
+        ///   Looks up a localized string similar to Automatically update Lovestrap.
         /// </summary>
         public static string Menu_Behaviour_AutoUpdate_Title {
             get {
@@ -2555,7 +2555,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure what Bloxstrap should do when launching Roblox..
+        ///   Looks up a localized string similar to Configure what Lovestrap should do when launching Roblox..
         /// </summary>
         public static string Menu_Behaviour_Description {
             get {
@@ -2609,7 +2609,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure options related to Bloxstrap&apos;s behaviour itself..
+        ///   Looks up a localized string similar to Configure options related to Lovestrap&apos;s behaviour itself..
         /// </summary>
         public static string Menu_Bloxstrap_Description {
             get {
@@ -2627,7 +2627,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap configuration.
+        ///   Looks up a localized string similar to Lovestrap configuration.
         /// </summary>
         public static string Menu_Bloxstrap_ExportData_ExportConfig {
             get {
@@ -2636,7 +2636,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Bloxstrap logs.
+        ///   Looks up a localized string similar to All Lovestrap logs.
         /// </summary>
         public static string Menu_Bloxstrap_ExportData_ExportLogs {
             get {
@@ -2878,7 +2878,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allow Bloxstrap to manage Fast Flags.
+        ///   Looks up a localized string similar to Allow Lovestrap to manage Fast Flags.
         /// </summary>
         public static string Menu_FastFlags_ManagerEnabled_Title {
             get {
@@ -2977,7 +2977,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap cannot be installed here. Please choose a different location, or resort to using the default location by clicking the reset button..
+        ///   Looks up a localized string similar to Lovestrap cannot be installed here. Please choose a different location, or resort to using the default location by clicking the reset button..
         /// </summary>
         public static string Menu_InstallLocation_CantInstall {
             get {
@@ -2986,7 +2986,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The folder you&apos;ve chosen to install Bloxstrap to already exists and is NOT empty. It is strongly recommended for Bloxstrap to be installed to its own independent folder.
+        ///   Looks up a localized string similar to The folder you&apos;ve chosen to install Lovestrap to already exists and is NOT empty. It is strongly recommended for Lovestrap to be installed to its own independent folder.
         ///
         ///Changing to the following location is suggested:
         ///{0}
@@ -3010,7 +3010,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap does not have write access to the install location you&apos;ve selected. Please choose another location..
+        ///   Looks up a localized string similar to Lovestrap does not have write access to the install location you&apos;ve selected. Please choose another location..
         /// </summary>
         public static string Menu_InstallLocation_NoWritePerms {
             get {
@@ -3145,7 +3145,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allows for Bloxstrap to detect what Roblox game you&apos;re playing. Certain features may require this..
+        ///   Looks up a localized string similar to Allows for Lovestrap to detect what Roblox game you&apos;re playing. Certain features may require this..
         /// </summary>
         public static string Menu_Integrations_EnableActivityTracking_Description {
             get {
@@ -3451,7 +3451,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configure how Bloxstrap can be readily launched..
+        ///   Looks up a localized string similar to Configure how Lovestrap can be readily launched..
         /// </summary>
         public static string Menu_Shortcuts_Description {
             get {
@@ -3460,7 +3460,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Allows you to use Bloxstrap&apos;s range of Roblox icons for your shortcuts. [See how.]({0}).
+        ///   Looks up a localized string similar to Allows you to use Lovestrap&apos;s range of Roblox icons for your shortcuts. [See how.]({0}).
         /// </summary>
         public static string Menu_Shortcuts_ExtractIcons_Description {
             get {
@@ -3536,7 +3536,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bloxstrap Settings.
+        ///   Looks up a localized string similar to Lovestrap Settings.
         /// </summary>
         public static string Menu_Title {
             get {
@@ -3563,7 +3563,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to They&apos;ll be kept where Bloxstrap was installed, and will automatically be restored on a reinstall..
+        ///   Looks up a localized string similar to They&apos;ll be kept where Lovestrap was installed, and will automatically be restored on a reinstall..
         /// </summary>
         public static string Uninstaller_KeepData_Description {
             get {
@@ -3581,11 +3581,11 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uninstalling will remove Bloxstrap from your system, and automatically reconfigure the default Roblox launcher if it&apos;s still installed.
+        ///   Looks up a localized string similar to Uninstalling will remove Lovestrap from your system, and automatically reconfigure the default Roblox launcher if it&apos;s still installed.
         ///
-        ///The uninstall process might leave some things behind, so you may need to manually clean up the leftover files where Bloxstrap was installed.
+        ///The uninstall process might leave some things behind, so you may need to manually clean up the leftover files where Lovestrap was installed.
         ///
-        ///Bloxstrap was installed at &quot;{1}&quot;..
+        ///Lovestrap was installed at &quot;{1}&quot;..
         /// </summary>
         public static string Uninstaller_Text {
             get {
@@ -3594,7 +3594,7 @@ namespace Lovestrap.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uninstall Bloxstrap.
+        ///   Looks up a localized string similar to Uninstall Lovestrap.
         /// </summary>
         public static string Uninstaller_Title {
             get {
