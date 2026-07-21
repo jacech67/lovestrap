@@ -14,6 +14,10 @@ namespace Lovestrap.UI.Elements.Settings
     /// </summary>
     public partial class MainWindow : INavigationWindow
     {
+        public bool RestartRequested { get; private set; }
+
+        public bool LaunchRequested { get; private set; }
+
         private Models.Persistable.WindowState _state => App.State.Prop.SettingsWindow;
 
         public MainWindow(bool showAlreadyRunningWarning)
@@ -22,6 +26,16 @@ namespace Lovestrap.UI.Elements.Settings
 
             viewModel.RequestSaveNoticeEvent += (_, _) => SettingsSavedSnackbar.Show();
             viewModel.RequestCloseWindowEvent += (_, _) => Close();
+            viewModel.RequestSaveAndLaunchEvent += (_, _) =>
+            {
+                LaunchRequested = true;
+                Close();
+            };
+            viewModel.RequestRestartSettingsEvent += (_, _) =>
+            {
+                RestartRequested = true;
+                Close();
+            };
 
             DataContext = viewModel;
             
@@ -100,6 +114,9 @@ namespace Lovestrap.UI.Elements.Settings
 
         private void WpfUiWindow_Closed(object sender, EventArgs e)
         {
+            if (RestartRequested || LaunchRequested)
+                return;
+
             if (App.LaunchSettings.TestModeFlag.Active)
                 LaunchHandler.LaunchRoblox(LaunchMode.Player);
             else

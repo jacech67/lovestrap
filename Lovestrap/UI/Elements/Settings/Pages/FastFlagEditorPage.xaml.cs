@@ -20,17 +20,6 @@ namespace Lovestrap.UI.Elements.Settings.Pages
         // using a datagrid is a codebehind thing only and thats it theres literally no way around it
 
         private readonly ObservableCollection<FastFlag> _fastFlagList = new();
-        private readonly List<string> _validPrefixes = new()
-        {
-            "FFlag", "DFFlag", "SFFlag", "FInt", "DFInt", "FString", "DFString", "FLog", "DFLog"
-        };
-
-        // values must match the entire string to avoid cases where half the string
-        // matches but the filter would still be invalid
-        private readonly Regex _boolFilterPattern = new("^(?:true|false)(;[\\d]{1,})+$", RegexOptions.IgnoreCase);
-        private readonly Regex _intFilterPattern = new("^([\\d]{1,})?(;[\\d]{1,})+$", RegexOptions.IgnoreCase);
-        private readonly Regex _stringFilterPattern = new("^[^;]*(;[\\d]{1,})+$", RegexOptions.IgnoreCase);
-
         private bool _showPresets = false;
         private string _searchFilter = "";
 
@@ -269,18 +258,6 @@ namespace Lovestrap.UI.Elements.Settings.Pages
             // All fastflag restrictions removed - any flag name/value combination is accepted.
             // The only hard requirement is a non-empty flag name.
             return !String.IsNullOrWhiteSpace(name);
-        }
-
-        private bool ValidateFilter(string name, string value)
-        {
-            if(name.StartsWith("FFlag") || name.StartsWith("DFFlag"))
-                return _boolFilterPattern.IsMatch(value);
-            if (name.StartsWith("FInt") || name.StartsWith("DFInt"))
-                return _intFilterPattern.IsMatch(value);
-            if (name.StartsWith("FString") || name.StartsWith("DFString") || name.StartsWith("FLog") || name.StartsWith("DFLog"))
-                return _stringFilterPattern.IsMatch(value);
-            
-            return false;
         }
 
         // refresh list on page load to synchronize with preset page

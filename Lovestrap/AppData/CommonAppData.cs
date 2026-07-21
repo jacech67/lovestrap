@@ -43,7 +43,11 @@ namespace Lovestrap.AppData
 
         public virtual string ExecutableName { get; } = null!;
 
-        public string Directory => Path.Combine(Paths.Versions, DistributionState.VersionGuid);
+        public abstract string BinaryType { get; }
+
+        public string Directory => App.Settings.Prop.UseStaticRobloxVersionDirectory
+            ? Path.Combine(Paths.Versions, BinaryType)
+            : Path.Combine(Paths.Versions, DistributionState.VersionGuid);
 
         public string ExecutablePath => Path.Combine(Directory, ExecutableName);
 

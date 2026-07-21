@@ -20,6 +20,7 @@ using System.Windows.Shell;
 using Microsoft.Win32;
 
 using Lovestrap.AppData;
+using Lovestrap.Enums.FlagPresets;
 using Lovestrap.RobloxInterfaces;
 using Lovestrap.UI.Elements.Bootstrapper.Base;
 
@@ -304,6 +305,23 @@ namespace Lovestrap
                         Frontend.ShowBalloonTip(Strings.Bootstrapper_ModificationsFailed_Title, Strings.Bootstrapper_ModificationsFailed_Message, ToolTipIcon.Warning);
                 }
 
+                if (_launchMode == LaunchMode.Player)
+                {
+                    TextureMeshMode textureMode = App.Settings.Prop.TextureMeshMode;
+
+                    if (textureMode != TextureMeshMode.Normal)
+                        SetStatus("Preparing texture replacement companion...");
+
+                    bool textureReplacementReady = await TextureAssetReplacementManager.PrepareForLaunchAsync(textureMode, _cancelTokenSource.Token);
+                    if (!textureReplacementReady)
+                    {
+                        Frontend.ShowMessageBox(
+                            "The texture replacement companion could not be prepared, so Roblox was not started. Complete or allow the Fleasion administrator prompt, then launch again. Set the preset to Normal to launch without asset replacement.",
+                            MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+
                 StartRoblox();
             }
 
@@ -334,6 +352,13 @@ namespace Lovestrap
             {
                 App.Logger.WriteLine(LOG_IDENT, "Got from launch URI");
                 return match.Groups[1].Value.ToLowerInvariant();
+            }
+
+            string configuredChannel = App.Settings.Prop.RobloxChannel?.Trim() ?? Deployment.DefaultChannel;
+            if (!String.IsNullOrEmpty(configuredChannel))
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Got configured channel ({configuredChannel})");
+                return configuredChannel.ToLowerInvariant();
             }
 
             if (_launchMode != LaunchMode.Unknown)
@@ -425,8 +450,18 @@ namespace Lovestrap
 
                 UpdateChannelRegistry();
 
-                newVersionGuid = clientVersion.VersionGuid;
-                newVersion = Utilities.ParseVersionSafe(clientVersion.Version);
+                if (!App.Settings.Prop.RobloxUpgradesEnabled &&
+                    !_mustUpgrade &&
+                    !String.IsNullOrEmpty(AppData.DistributionState.VersionGuid))
+                {
+                    App.Logger.WriteLine(LOG_IDENT, $"Roblox upgrades are disabled; keeping {AppData.DistributionState.VersionGuid}");
+                    newVersionGuid = AppData.DistributionState.VersionGuid;
+                }
+                else
+                {
+                    newVersionGuid = clientVersion.VersionGuid;
+                    newVersion = Utilities.ParseVersionSafe(clientVersion.Version);
+                }
             }
             else
             {
@@ -440,7 +475,9 @@ namespace Lovestrap
                 _latestVersionGuid = newVersionGuid!;
                 _latestVersion = newVersion;
 
-                _latestVersionDirectory = Path.Combine(Paths.Versions, _latestVersionGuid);
+                _latestVersionDirectory = App.Settings.Prop.UseStaticRobloxVersionDirectory
+                    ? Path.Combine(Paths.Versions, AppData.BinaryType)
+                    : Path.Combine(Paths.Versions, _latestVersionGuid);
 
                 string pkgManifestUrl = Deployment.GetLocation($"/{_latestVersionGuid}-rbxPkgManifest.txt");
                 var pkgManifestData = await App.HttpClient.GetStringAsync(pkgManifestUrl);
@@ -637,6 +674,9 @@ namespace Lovestrap
                 App.Logger.WriteLine(LOG_IDENT, $"Got log file as {logFileName}");
             }
 
+            if (_launchMode == LaunchMode.Player && App.Settings.Prop.CloseRobloxCrashHandler)
+                CloseCrashHandlerProcesses();
+
             _mutex?.ReleaseAsync();
 
             if (IsStudioLaunch)
@@ -699,6 +739,44 @@ namespace Lovestrap
             Thread.Sleep(1000);
         }
 
+        private static void CloseCrashHandlerProcesses()
+        {
+            const string LOG_IDENT = "Bootstrapper::CloseCrashHandlerProcesses";
+
+            // The crash handler may appear shortly after the Player process, so wait briefly.
+            // Only RobloxCrashHandler is targeted; RobloxPlayerBeta is never touched here.
+            for (int attempt = 0; attempt < 10; attempt++)
+            {
+                Process[] processes = Process.GetProcessesByName("RobloxCrashHandler");
+
+                if (processes.Length > 0)
+                {
+                    foreach (Process process in processes)
+                    {
+                        try
+                        {
+                            App.Logger.WriteLine(LOG_IDENT, $"Closing RobloxCrashHandler (PID {process.Id})");
+                            process.Kill();
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteException(LOG_IDENT, ex);
+                        }
+                        finally
+                        {
+                            process.Dispose();
+                        }
+                    }
+
+                    return;
+                }
+
+                Thread.Sleep(250);
+            }
+
+            App.Logger.WriteLine(LOG_IDENT, "RobloxCrashHandler was not running");
+        }
+
         private bool ShouldRunAsAdmin()
         {
             foreach (var root in WindowsRegistry.Roots)
@@ -737,7 +815,7 @@ namespace Lovestrap
                 {
                     // clean up install
                     if (Directory.Exists(_latestVersionDirectory))
-                        Directory.Delete(_latestVersionDirectory, true);
+                        Filesystem.DeleteDirectory(_latestVersionDirectory);
                 }
                 catch (Exception ex)
                 {
@@ -912,11 +990,23 @@ namespace Lovestrap
                 return;
             }
 
+            var preservedDirectories = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                App.PlayerState.Prop.VersionGuid,
+                App.StudioState.Prop.VersionGuid
+            };
+
+            if (App.Settings.Prop.UseStaticRobloxVersionDirectory)
+            {
+                preservedDirectories.Add("WindowsPlayer");
+                preservedDirectories.Add("WindowsStudio64");
+            }
+
             foreach (string dir in Directory.GetDirectories(Paths.Versions))
             {
                 string dirName = Path.GetFileName(dir);
 
-                if (dirName != App.PlayerState.Prop.VersionGuid && dirName != App.StudioState.Prop.VersionGuid)
+                if (!preservedDirectories.Contains(dirName))
                 {
                     // TODO: this is too expensive
                     //Filesystem.AssertReadOnlyDirectory(dir);
@@ -928,7 +1018,7 @@ namespace Lovestrap
 
                     try
                     {
-                        Directory.Delete(dir, true);
+                        Filesystem.DeleteDirectory(dir);
                     }
                     catch (Exception ex)
                     {
@@ -1031,7 +1121,7 @@ namespace Lovestrap
                 if (IsStudioLaunch)
                     await GracefullyCloseRobloxInstances();
                 else
-                    KillRobloxInstances();
+                    App.Logger.WriteLine(LOG_IDENT, "Roblox Player processes are left running; Lovestrap never closes an active game for an update");
 
                 if (_cancelTokenSource.IsCancellationRequested)
                     return;
@@ -1041,12 +1131,13 @@ namespace Lovestrap
                 {
                     try
                     {
-                        Directory.Delete(_latestVersionDirectory, true);
+                        Filesystem.DeleteDirectory(_latestVersionDirectory);
                     }
                     catch (Exception ex)
                     {
                         App.Logger.WriteLine(LOG_IDENT, "Failed to delete the latest version directory");
                         App.Logger.WriteException(LOG_IDENT, ex);
+                        throw;
                     }
                 }
             }
@@ -1176,7 +1267,7 @@ namespace Lovestrap
 
                         App.Logger.WriteLine(LOG_IDENT, "Finished installing runtime");
 
-                        Directory.Delete(baseDirectory, true);
+                        Filesystem.DeleteDirectory(baseDirectory);
                     }
                 }
             }

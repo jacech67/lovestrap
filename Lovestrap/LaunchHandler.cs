@@ -179,11 +179,25 @@ namespace Lovestrap
             if (interlock.IsAcquired)
             {
                 bool showAlreadyRunningWarning = Process.GetProcessesByName(App.ProjectName).Length > 1;
+                bool restartRequested;
 
-                var window = new UI.Elements.Settings.MainWindow(showAlreadyRunningWarning);
+                do
+                {
+                    var window = new UI.Elements.Settings.MainWindow(showAlreadyRunningWarning);
 
-                // typically we'd use Show(), but we need to block to ensure IPL stays in scope
-                window.ShowDialog();
+                    // typically we'd use Show(), but we need to block to ensure IPL stays in scope
+                    window.ShowDialog();
+
+                    if (window.LaunchRequested)
+                    {
+                        LaunchRoblox(LaunchMode.Player);
+                        return;
+                    }
+
+                    restartRequested = window.RestartRequested;
+                    showAlreadyRunningWarning = false;
+                }
+                while (restartRequested);
             }
             else
             {

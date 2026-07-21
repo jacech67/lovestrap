@@ -457,7 +457,10 @@ namespace Lovestrap
 
             if (existingVer is not null)
             {
-                if (Utilities.CompareVersions(existingVer, "2.2.0") == VersionComparison.LessThan)
+                Version.TryParse(existingVer, out Version? parsedExistingVersion);
+                bool runUpstreamMigrations = parsedExistingVersion is not null && parsedExistingVersion.Major >= 2;
+
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.2.0") == VersionComparison.LessThan)
                 {
                     string path = Path.Combine(Paths.Integrations, "rbxfpsunlocker");
 
@@ -472,7 +475,7 @@ namespace Lovestrap
                     }
                 }
 
-                if (Utilities.CompareVersions(existingVer, "2.3.0") == VersionComparison.LessThan)
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.3.0") == VersionComparison.LessThan)
                 {
                     string injectorLocation = Path.Combine(Paths.Modifications, "dxgi.dll");
                     string configLocation = Path.Combine(Paths.Modifications, "ReShade.ini");
@@ -484,7 +487,7 @@ namespace Lovestrap
                         File.Delete(configLocation);
                 }
 
-                if (Utilities.CompareVersions(existingVer, "2.6.0") == VersionComparison.LessThan)
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.6.0") == VersionComparison.LessThan)
                 {
                     if (App.Settings.Prop.UseDisableAppPatch)
                     {
@@ -504,7 +507,7 @@ namespace Lovestrap
                         App.Settings.Prop.BootstrapperStyle = BootstrapperStyle.FluentDialog;
                 }
 
-                if (Utilities.CompareVersions(existingVer, "2.8.0") == VersionComparison.LessThan)
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.8.0") == VersionComparison.LessThan)
                 {
                     if (isAutoUpgrade)
                     {
@@ -545,7 +548,7 @@ namespace Lovestrap
                     WindowsRegistry.RegisterPlayer();
                 }
 
-                if (Utilities.CompareVersions(existingVer, "2.8.2") == VersionComparison.LessThan)
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.8.2") == VersionComparison.LessThan)
                 {
                     string robloxDirectory = Path.Combine(Paths.Base, "Roblox");
 
@@ -563,7 +566,7 @@ namespace Lovestrap
                     }
                 }
 
-                if (Utilities.CompareVersions(existingVer, "2.11.0") == VersionComparison.LessThan)
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.11.0") == VersionComparison.LessThan)
                 {
                     JsonManager<RobloxState> legacyRobloxState = new();
 
@@ -585,10 +588,22 @@ namespace Lovestrap
                     }
                 }
 
-                if (Utilities.CompareVersions(existingVer, "2.11.3") == VersionComparison.LessThan)
+                if (runUpstreamMigrations && Utilities.CompareVersions(existingVer, "2.11.3") == VersionComparison.LessThan)
                 {
                     App.FastFlags.SetValue("FFlagDebugGraphicsPreferD3D11", null);
                     App.FastFlags.SetValue("FFlagDebugGraphicsPreferD3D11FL10", null);
+                }
+
+                // Lovestrap 1.1 could leave the latest Roblox folder partially extracted when
+                // a read-only cacert.pem blocked cleanup. Queue one clean install after moving
+                // to 1.2 so the repaired deletion path is guaranteed to run on the next launch.
+                if (parsedExistingVersion is not null &&
+                    parsedExistingVersion.Major == 1 &&
+                    Utilities.CompareVersions(existingVer, "1.2") == VersionComparison.LessThan)
+                {
+                    App.Settings.Prop.RobloxUpgradesEnabled = true;
+                    App.Settings.Prop.RobloxChannel = RobloxInterfaces.Deployment.DefaultChannel;
+                    App.State.Prop.ForceReinstall = true;
                 }
 
                 App.Settings.Save();

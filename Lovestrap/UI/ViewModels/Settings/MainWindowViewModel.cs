@@ -10,12 +10,20 @@ namespace Lovestrap.UI.ViewModels.Settings
         public ICommand OpenAboutCommand => new RelayCommand(OpenAbout);
         
         public ICommand SaveSettingsCommand => new RelayCommand(SaveSettings);
+
+        public ICommand SaveAndLaunchCommand => new RelayCommand(SaveAndLaunch);
+
+        public ICommand RestartSettingsCommand => new RelayCommand(RestartSettings);
         
         public ICommand CloseWindowCommand => new RelayCommand(CloseWindow);
 
         public EventHandler? RequestSaveNoticeEvent;
         
         public EventHandler? RequestCloseWindowEvent;
+
+        public EventHandler? RequestSaveAndLaunchEvent;
+
+        public EventHandler? RequestRestartSettingsEvent;
 
         public bool TestModeEnabled
         {
@@ -37,6 +45,18 @@ namespace Lovestrap.UI.ViewModels.Settings
         private void OpenAbout() => new MainWindow().ShowDialog();
 
         private void CloseWindow() => RequestCloseWindowEvent?.Invoke(this, EventArgs.Empty);
+
+        private void SaveAndLaunch()
+        {
+            SaveSettings();
+            RequestSaveAndLaunchEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RestartSettings()
+        {
+            SaveSettings();
+            RequestRestartSettingsEvent?.Invoke(this, EventArgs.Empty);
+        }
 
         private void SaveSettings()
         {

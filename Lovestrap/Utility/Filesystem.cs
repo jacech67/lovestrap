@@ -34,12 +34,30 @@ namespace Lovestrap.Utility
 
         internal static void AssertReadOnlyDirectory(string directoryPath)
         {
-            var directory = new DirectoryInfo(directoryPath) { Attributes = FileAttributes.Normal };
+            ClearReadOnlyAttributes(directoryPath);
+
+            App.Logger.WriteLine("Filesystem::AssertReadOnlyDirectory", $"Read-only attributes were cleared in: {directoryPath}");
+        }
+
+        internal static void ClearReadOnlyAttributes(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+                return;
+
+            var directory = new DirectoryInfo(directoryPath);
+            directory.Attributes &= ~FileAttributes.ReadOnly;
 
             foreach (var info in directory.GetFileSystemInfos("*", SearchOption.AllDirectories))
-                info.Attributes = FileAttributes.Normal;
+                info.Attributes &= ~FileAttributes.ReadOnly;
+        }
 
-            App.Logger.WriteLine("Filesystem::AssertReadOnlyDirectory", $"The following directory was set as read-only: {directoryPath}");
+        internal static void DeleteDirectory(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+                return;
+
+            ClearReadOnlyAttributes(directoryPath);
+            Directory.Delete(directoryPath, true);
         }
     }
 }

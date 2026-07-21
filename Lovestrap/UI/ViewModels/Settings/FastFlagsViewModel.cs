@@ -74,6 +74,60 @@ namespace Lovestrap.UI.ViewModels.Settings
             }
         }
 
+        public IReadOnlyList<TextureMeshMode> TextureMeshModes => FastFlagManager.TextureMeshModes;
+
+        public TextureMeshMode SelectedTextureMeshMode
+        {
+            get => App.Settings.Prop.TextureMeshMode;
+            set
+            {
+                if (value != TextureMeshMode.Normal && App.Settings.Prop.RtxMode)
+                {
+                    App.Settings.Prop.RtxMode = false;
+                    App.FastFlags.SetRtxMode(false);
+                    OnPropertyChanged(nameof(RtxMode));
+                }
+
+                App.Settings.Prop.TextureMeshMode = value;
+                App.FastFlags.SetTextureMeshMode(value);
+                OnPropertyChanged(nameof(SelectedTextureMeshMode));
+                NotifyRenderingPresetChanged();
+            }
+        }
+
+        public bool RtxMode
+        {
+            get => App.Settings.Prop.RtxMode;
+            set
+            {
+                App.Settings.Prop.RtxMode = value;
+
+                if (value)
+                {
+                    App.Settings.Prop.TextureMeshMode = TextureMeshMode.Normal;
+                    App.FastFlags.SetTextureMeshMode(TextureMeshMode.Normal);
+                }
+
+                App.FastFlags.SetRtxMode(value);
+                OnPropertyChanged(nameof(RtxMode));
+                OnPropertyChanged(nameof(SelectedTextureMeshMode));
+                NotifyRenderingPresetChanged();
+            }
+        }
+
+        private void NotifyRenderingPresetChanged()
+        {
+            OnPropertyChanged(nameof(SelectedMSAALevel));
+            OnPropertyChanged(nameof(SelectedTextureQuality));
+            OnPropertyChanged(nameof(MeshDetailEnabled));
+            OnPropertyChanged(nameof(MeshDetailLevel));
+            OnPropertyChanged(nameof(FRMQualityEnabled));
+            OnPropertyChanged(nameof(FRMQualityLevel));
+            OnPropertyChanged(nameof(GraySky));
+            OnPropertyChanged(nameof(PauseVoxelizer));
+            OnPropertyChanged(nameof(DisableGrass));
+        }
+
         // ---- Geometry: Mesh detail ----
         public bool MeshDetailEnabled
         {

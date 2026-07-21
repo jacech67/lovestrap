@@ -14,9 +14,15 @@ namespace Lovestrap.Models.Persistable
         public bool DeveloperMode { get; set; } = false;
         public bool CheckForUpdates { get; set; } = true;
         public bool ConfirmLaunches { get; set; } = false;
+        public bool CloseRobloxCrashHandler { get; set; } = false;
+        public bool RobloxUpgradesEnabled { get; set; } = true;
+        public bool UseStaticRobloxVersionDirectory { get; set; } = false;
+        public string RobloxChannel { get; set; } = "production";
         public string Locale { get; set; } = "nil";
         public bool UseFastFlagManager { get; set; } = true;
         public bool EnableFastFlagInjector { get; set; } = true;
+        public Lovestrap.Enums.FlagPresets.TextureMeshMode TextureMeshMode { get; set; } = Lovestrap.Enums.FlagPresets.TextureMeshMode.Normal;
+        public bool RtxMode { get; set; } = false;
         public bool WPFSoftwareRender { get; set; } = false;
         public bool EnableAnalytics { get; set; } = true;
         public bool BackgroundUpdatesEnabled { get; set; } = false;

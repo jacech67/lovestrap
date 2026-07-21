@@ -17,6 +17,9 @@ namespace Lovestrap
 
         private readonly System.Timers.Timer _timer;
         private FileSystemWatcher? _watcher;
+        private CancellationTokenSource? _debounceCancellation;
+        private readonly SemaphoreSlim _refreshLock = new(1, 1);
+        private readonly HashSet<string> _injectedKeys = new(StringComparer.Ordinal);
         private string _lastHash = "";
 
         public FastFlagInjector()
@@ -28,6 +31,11 @@ namespace Lovestrap
         public void Start()
         {
             const string LOG_IDENT = "FastFlagInjector::Start";
+
+            // The settings toggle and startup path can both call Start. Never leave duplicate
+            // watchers running, since they would process and save every external edit twice.
+            Stop();
+
             App.Logger.WriteLine(LOG_IDENT, $"Started, watching {FilePath} (fallback refresh every {RefreshInterval.TotalMinutes} min)");
 
             // run once immediately, then on the interval as a fallback
@@ -46,16 +54,12 @@ namespace Lovestrap
                     EnableRaisingEvents = true
                 };
 
-                FileSystemEventHandler onChange = (_, _) =>
-                {
-                    // brief debounce so we read after the writer finishes flushing
-                    Thread.Sleep(150);
-                    Refresh();
-                };
+                FileSystemEventHandler onChange = (_, _) => QueueRefresh();
 
                 _watcher.Changed += onChange;
                 _watcher.Created += onChange;
-                _watcher.Renamed += (_, _) => { Thread.Sleep(150); Refresh(); };
+                _watcher.Deleted += onChange;
+                _watcher.Renamed += (_, _) => QueueRefresh();
             }
             catch (Exception ex)
             {
@@ -66,17 +70,55 @@ namespace Lovestrap
         public void Stop()
         {
             _timer.Stop();
+            _debounceCancellation?.Cancel();
+            _debounceCancellation?.Dispose();
+            _debounceCancellation = null;
             _watcher?.Dispose();
+            _watcher = null;
         }
 
-        public void Refresh()
+        private async void QueueRefresh()
+        {
+            _debounceCancellation?.Cancel();
+            _debounceCancellation?.Dispose();
+            _debounceCancellation = new CancellationTokenSource();
+
+            try
+            {
+                // Editors commonly replace a file through several rapid rename/write events.
+                await Task.Delay(250, _debounceCancellation.Token);
+                await RefreshAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // A newer filesystem event superseded this refresh.
+            }
+        }
+
+        public void Refresh() => RefreshAsync().GetAwaiter().GetResult();
+
+        private async Task RefreshAsync()
         {
             const string LOG_IDENT = "FastFlagInjector::Refresh";
+
+            await _refreshLock.WaitAsync();
 
             try
             {
                 if (!File.Exists(FilePath))
+                {
+                    if (_injectedKeys.Count == 0)
+                        return;
+
+                    foreach (string key in _injectedKeys)
+                        App.FastFlags.SetValue(key, null);
+
+                    _injectedKeys.Clear();
+                    _lastHash = "";
+                    App.FastFlags.Save();
+                    App.Logger.WriteLine(LOG_IDENT, "External FastFlag file was removed; cleared its injected flags");
                     return;
+                }
 
                 string contents = File.ReadAllText(FilePath);
 
@@ -99,6 +141,7 @@ namespace Lovestrap
                     return;
 
                 int changes = 0;
+                var newInjectedKeys = new HashSet<string>(StringComparer.Ordinal);
 
                 foreach (var pair in flags)
                 {
@@ -110,6 +153,8 @@ namespace Lovestrap
                     if (value is null)
                         continue;
 
+                    newInjectedKeys.Add(pair.Key);
+
                     // only write if it's new or different - no restrictions/validation
                     if (App.FastFlags.GetValue(pair.Key) != value)
                     {
@@ -118,51 +163,33 @@ namespace Lovestrap
                     }
                 }
 
+                // Removing a key from InjectedFlags.json removes only flags previously owned by
+                // that external file; regular presets and editor entries remain untouched.
+                foreach (string removedKey in _injectedKeys.Except(newInjectedKeys).ToArray())
+                {
+                    App.FastFlags.SetValue(removedKey, null);
+                    changes++;
+                }
+
+                _injectedKeys.Clear();
+                _injectedKeys.UnionWith(newInjectedKeys);
+
                 if (changes == 0)
                     return;
 
                 App.Logger.WriteLine(LOG_IDENT, $"Injected/refreshed {changes} flag(s)");
 
                 App.FastFlags.Save();
-
-                PushToActiveVersion();
             }
             catch (Exception ex)
             {
                 App.Logger.WriteException(LOG_IDENT, ex);
             }
-        }
-
-        // copy the freshly-saved ClientAppSettings.json straight into the installed Roblox
-        // version folder so an already-installed client uses the injected flags next launch
-        private void PushToActiveVersion()
-        {
-            const string LOG_IDENT = "FastFlagInjector::PushToActiveVersion";
-
-            try
+            finally
             {
-                string? guid = App.PlayerState.Prop.VersionGuid;
-
-                if (String.IsNullOrEmpty(guid) || String.IsNullOrEmpty(Paths.Versions))
-                    return;
-
-                string source = App.FastFlags.FileLocation;
-                string destDir = Path.Combine(Paths.Versions, guid, "ClientSettings");
-                string dest = Path.Combine(destDir, "ClientAppSettings.json");
-
-                if (!File.Exists(source))
-                    return;
-
-                Directory.CreateDirectory(destDir);
-                Filesystem.AssertReadOnly(dest);
-                File.Copy(source, dest, true);
-
-                App.Logger.WriteLine(LOG_IDENT, $"Pushed injected flags to version {guid}");
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException(LOG_IDENT, ex);
+                _refreshLock.Release();
             }
         }
+
     }
 }

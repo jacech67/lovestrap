@@ -29,9 +29,18 @@
             <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
         </controls:OptionControl>
 
+        <ui:InfoBar
+            Margin="0,12,0,4"
+            Padding="10"
+            Title="Account risk warning"
+            Message="Roblox only permits selected local FastFlags. Unapproved flags may be ignored and attempts to bypass Roblox restrictions can put your account at risk. Use custom FastFlags at your own caution."
+            Severity="Warning"
+            IsOpen="True"
+            IsClosable="False" />
+
         <controls:OptionControl
             Header="Enable Fast Flag Injector"
-            Description="Watches your fast flags and re-applies them automatically (also refreshes every 5 minutes). Changes take effect the next time Roblox launches.">
+            Description="Watches Modifications\\ClientSettings\\InjectedFlags.json, saves every external edit, and deploys it without closing or restarting Roblox. Startup-only flags apply on a later launch.">
             <ui:ToggleSwitch IsChecked="{Binding EnableFastFlagInjector, Mode=TwoWay}" />
         </controls:OptionControl>
 
@@ -46,29 +55,44 @@
         <TextBlock Text="Geometry" FontSize="16" FontWeight="Medium" Margin="0,16,0,0" />
 
         <controls:OptionControl
-            Header="Mesh detail"
-            Description="Control how detailed meshes appear in-game.">
-            <ui:ToggleSwitch IsChecked="{Binding MeshDetailEnabled, Mode=TwoWay}" />
+            Header="Texture and mesh preset"
+            Description="Choose the graphics preset that Lovestrap queues for the next Roblox launch.">
+            <ComboBox
+                Margin="5,0,0,0"
+                Padding="10,5,10,5"
+                Width="200"
+                ItemsSource="{Binding TextureMeshModes, Mode=OneTime}"
+                SelectedItem="{Binding SelectedTextureMeshMode, Mode=TwoWay}" />
         </controls:OptionControl>
 
-        <ui:Card Margin="0,8,0,0">
-            <StackPanel>
-                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Lower qualities may cause meshes to disappear." />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Lowest quality" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                    <Slider Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" Minimum="0" Maximum="100" IsEnabled="{Binding MeshDetailEnabled}" Value="{Binding MeshDetailLevel, Mode=TwoWay}" />
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Highest quality" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                </Grid>
-            </StackPanel>
-        </ui:Card>
+        <ui:InfoBar
+            Margin="0,8,0,4"
+            Padding="10"
+            Title="Optional Fleasion companion"
+            Message="Blurry and ZeroTextures use the official Fleasion asset proxy and the supplied replacement IDs. It needs an administrator prompt because it configures a local proxy. Lovestrap never closes or restarts Roblox; if Roblox is open, the change stays queued for the next launch."
+            Severity="Warning"
+            IsOpen="True"
+            IsClosable="False" />
+
+        <TextBlock Margin="4,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Normal: original assets • Blurry: replaces 7658055825 with the bundled local blurry PNG • ZeroTextures: 7658055825 → 15403233827. Press Save before launching Roblox." />
 
         <!-- ================= Rendering and Graphics ================= -->
         <TextBlock Text="Rendering and Graphics" FontSize="16" FontWeight="Medium" Margin="0,20,0,0" />
+
+        <controls:OptionControl
+            Header="RTX Mode (maximum quality)"
+            Description="Queues Lovestrap's highest-quality Roblox preset for the next launch: full textures and meshes, 4x anti-aliasing, maximum render quality, grass and baked shadows.">
+            <ui:ToggleSwitch IsChecked="{Binding RtxMode, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <ui:InfoBar
+            Margin="0,8,0,4"
+            Padding="10"
+            Title="RTX-like quality preset"
+            Message="This makes Roblox look as good as its permitted local quality controls allow. It is not real ray tracing and cannot add Minecraft-style shader effects such as custom reflections or new lighting. It applies on the next launch and never closes or restarts Roblox."
+            Severity="Informational"
+            IsOpen="True"
+            IsClosable="False" />
 
         <controls:OptionControl
             Header="{x:Static resources:Strings.Menu_FastFlags_Presets_MSAA_Title}">

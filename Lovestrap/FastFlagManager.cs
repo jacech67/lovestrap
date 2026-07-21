@@ -24,8 +24,8 @@ namespace Lovestrap
 
             { "Rendering.TextureQuality.OverrideEnabled", "DFFlagTextureQualityOverrideEnabled" },
             { "Rendering.TextureQuality.Level", "DFIntTextureQualityOverride" },
-
             // Mesh detail: CSG/mesh level-of-detail switching distances (lower = meshes lose detail / disappear)
+            { "Rendering.MeshDetail.L0", "DFIntCSGLevelOfDetailSwitchingDistance" },
             { "Rendering.MeshDetail.L12", "DFIntCSGLevelOfDetailSwitchingDistanceL12" },
             { "Rendering.MeshDetail.L23", "DFIntCSGLevelOfDetailSwitchingDistanceL23" },
             { "Rendering.MeshDetail.L34", "DFIntCSGLevelOfDetailSwitchingDistanceL34" },
@@ -48,12 +48,107 @@ namespace Lovestrap
         // ---- Mesh detail (0-100 quality: 100 = full detail, 0 = meshes drop to lowest LOD / disappear) ----
         private static readonly Dictionary<string, int> MeshDetailBase = new()
         {
+            { "Rendering.MeshDetail.L0", 125 },
             { "Rendering.MeshDetail.L12", 250 },
             { "Rendering.MeshDetail.L23", 500 },
             { "Rendering.MeshDetail.L34", 750 },
         };
 
         public const int MeshDetailMax = 100;
+
+        public static IReadOnlyList<TextureMeshMode> TextureMeshModes { get; } = Enum.GetValues<TextureMeshMode>();
+
+        // These older texture hacks are no longer accepted by the Roblox Player's local
+        // FastFlag filter. Keep their names here so upgrades can remove stale values.
+        private static readonly string[] ObsoleteTextureFlags =
+        {
+            "FIntDebugTextureManagerSkipMips",
+            "DFIntPerformanceControlTextureQualityBestUtility",
+            "DFIntTextureCompositorActiveJobs",
+            "FIntTerrainArraySliceSize"
+        };
+
+        public TextureMeshMode GetTextureMeshMode()
+        {
+            if (GetPreset("Rendering.FRMQuality") == "1" &&
+                MeshDetailBase.All(x => GetPreset(x.Key) == "0"))
+                return TextureMeshMode.ZeroTextures;
+
+            if (GetPreset("Rendering.TextureQuality.OverrideEnabled") == "True" &&
+                GetPreset("Rendering.TextureQuality.Level") == "0")
+                return TextureMeshMode.Blurry;
+
+            return TextureMeshMode.Normal;
+        }
+
+        public void SetTextureMeshMode(TextureMeshMode mode)
+        {
+            // Clear every flag owned by this combined preset before applying the selected mode.
+            foreach (var pair in MeshDetailBase)
+                SetValue(PresetFlags[pair.Key], null);
+
+            SetValue(PresetFlags["Rendering.FRMQuality"], null);
+            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], null);
+            SetValue(PresetFlags["Rendering.TextureQuality.Level"], null);
+            ClearObsoleteTextureFlags();
+
+            if (mode == TextureMeshMode.Normal)
+                return;
+
+            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], "True");
+            SetValue(PresetFlags["Rendering.TextureQuality.Level"], "0");
+
+            if (mode == TextureMeshMode.Blurry)
+            {
+                // Lowest supported texture quality while keeping recognizable geometry.
+                SetValue(PresetFlags["Rendering.FRMQuality"], "6");
+                SetValue(PresetFlags["Rendering.MeshDetail.L0"], "20");
+                SetValue(PresetFlags["Rendering.MeshDetail.L12"], "10");
+                SetValue(PresetFlags["Rendering.MeshDetail.L23"], "5");
+                SetValue(PresetFlags["Rendering.MeshDetail.L34"], "0");
+                return;
+            }
+
+            // Strongest downgrade currently accepted by the Roblox Player: minimum texture
+            // quality, minimum frame-manager quality and immediate lowest mesh LOD.
+            SetValue(PresetFlags["Rendering.FRMQuality"], "1");
+            SetValue(PresetFlags["Rendering.MeshDetail.L0"], "0");
+            SetValue(PresetFlags["Rendering.MeshDetail.L12"], "0");
+            SetValue(PresetFlags["Rendering.MeshDetail.L23"], "0");
+            SetValue(PresetFlags["Rendering.MeshDetail.L34"], "0");
+        }
+
+        /// <summary>
+        /// Applies the highest-quality settings that Roblox currently permits through local
+        /// client configuration. This is an RTX-like quality preset, not hardware ray tracing.
+        /// </summary>
+        public void SetRtxMode(bool enabled)
+        {
+            // Clear every setting owned by the quality preset first. This also makes disabling
+            // the preset return these controls to Roblox defaults instead of leaving stale values.
+            SetValue(PresetFlags["Rendering.MSAA"], null);
+            SetValue(PresetFlags["Rendering.FRMQuality"], null);
+            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], null);
+            SetValue(PresetFlags["Rendering.TextureQuality.Level"], null);
+            SetValue(PresetFlags["Rendering.GraySky"], null);
+            SetValue(PresetFlags["Rendering.PauseVoxelizer"], null);
+            SetPreset("Rendering.DisableGrass", null);
+
+            foreach (var pair in MeshDetailBase)
+                SetValue(PresetFlags[pair.Key], null);
+
+            ClearObsoleteTextureFlags();
+
+            if (!enabled)
+                return;
+
+            // Roblox's highest local texture override, 4x MSAA, and maximum frame-manager
+            // quality. Mesh LOD, grass, sky and voxel lighting remain at the game's defaults.
+            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], "True");
+            SetValue(PresetFlags["Rendering.TextureQuality.Level"], "3");
+            SetValue(PresetFlags["Rendering.MSAA"], "4");
+            SetValue(PresetFlags["Rendering.FRMQuality"], "21");
+        }
 
         public bool GetMeshDetailEnabled() => GetPreset("Rendering.MeshDetail.L12") is not null;
 
@@ -62,8 +157,15 @@ namespace Lovestrap
             if (enabled)
                 SetMeshDetail(GetMeshDetail());        // materialise the flags at the current level
             else
+            {
                 foreach (var pair in MeshDetailBase)   // remove them
                     SetValue(PresetFlags[pair.Key], null);
+
+                SetValue(PresetFlags["Rendering.FRMQuality"], null);
+                SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], null);
+                SetValue(PresetFlags["Rendering.TextureQuality.Level"], null);
+                ClearObsoleteTextureFlags();
+            }
         }
 
         public void SetMeshDetail(int quality)
@@ -73,6 +175,44 @@ namespace Lovestrap
 
             foreach (var pair in MeshDetailBase)
                 SetValue(PresetFlags[pair.Key], (int)Math.Round(pair.Value * factor));
+
+            if (quality >= MeshDetailMax)
+            {
+                // Full bar means Roblox defaults: no forced texture, mip or render downgrade.
+                SetValue(PresetFlags["Rendering.FRMQuality"], null);
+                SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], null);
+                SetValue(PresetFlags["Rendering.TextureQuality.Level"], null);
+                ClearObsoleteTextureFlags();
+            }
+            else
+            {
+                // FRM controls general MeshPart/geometry quality. 1 is Roblox's lowest level.
+                int renderQuality = 1 + (int)Math.Round(factor * 19);
+                SetValue(PresetFlags["Rendering.FRMQuality"], renderQuality);
+
+                SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], "True");
+                SetValue(PresetFlags["Rendering.TextureQuality.Level"], "0");
+
+                ClearObsoleteTextureFlags();
+            }
+        }
+
+        private void ClearObsoleteTextureFlags()
+        {
+            foreach (string flag in ObsoleteTextureFlags)
+                SetValue(flag, null);
+        }
+
+        private void ClearParserPoisoningIxpOverrides()
+        {
+            // Roblox 0.730 repeatedly reports a malformed filtered-settings document when a
+            // local *_IXPValue override is present. Such keys are experiment assignments, not
+            // ordinary player FastFlags, so remove them before writing ClientAppSettings.json.
+            foreach (string key in Prop.Keys.Where(x => x.EndsWith("_IXPValue", StringComparison.OrdinalIgnoreCase)).ToArray())
+            {
+                App.Logger.WriteLine("FastFlagManager::Compatibility", $"Removing incompatible local IXP override '{key}'");
+                Prop.Remove(key);
+            }
         }
 
         public int GetMeshDetail()
@@ -212,6 +352,8 @@ namespace Lovestrap
 
         public override void Save()
         {
+            ClearParserPoisoningIxpOverrides();
+
             // convert all flag values to strings before saving
 
             foreach (var pair in Prop)
@@ -219,13 +361,61 @@ namespace Lovestrap
 
             base.Save();
 
+            DeployToInstalledPlayerVersions();
+
             // clone the dictionary
             OriginalProp = new(Prop);
+        }
+
+        /// <summary>
+        /// Copies the saved FastFlag configuration into every installed Roblox Player version.
+        /// Roblox reads most FastFlags at startup, but deployment itself happens immediately.
+        /// </summary>
+        public void DeployToInstalledPlayerVersions()
+        {
+            const string LOG_IDENT = "FastFlagManager::DeployToInstalledPlayerVersions";
+
+            if (!File.Exists(FileLocation))
+                return;
+
+            var versionRoots = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                Paths.Versions,
+                Path.Combine(Paths.LocalAppData, "Roblox", "Versions")
+            };
+
+            foreach (string versionsRoot in versionRoots.Where(Directory.Exists))
+            {
+                foreach (string versionDir in Directory.EnumerateDirectories(versionsRoot))
+                {
+                    try
+                    {
+                        if (!File.Exists(Path.Combine(versionDir, $"{App.RobloxPlayerAppName}.exe")))
+                            continue;
+
+                        string clientSettingsDir = Path.Combine(versionDir, "ClientSettings");
+                        string destination = Path.Combine(clientSettingsDir, FileName);
+
+                        Directory.CreateDirectory(clientSettingsDir);
+                        Filesystem.AssertReadOnly(destination);
+                        File.Copy(FileLocation, destination, true);
+
+                        App.Logger.WriteLine(LOG_IDENT, $"Deployed FastFlags to '{versionDir}'");
+                    }
+                    catch (Exception ex)
+                    {
+                        // One stale or locked version directory must not prevent the others updating.
+                        App.Logger.WriteException(LOG_IDENT, ex);
+                    }
+                }
+            }
         }
 
         public override bool Load(bool alertFailure = true)
         {
             bool result = base.Load(alertFailure);
+
+            ClearParserPoisoningIxpOverrides();
 
             // clone the dictionary
             OriginalProp = new(Prop);
