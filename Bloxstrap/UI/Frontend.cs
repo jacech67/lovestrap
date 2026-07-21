@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 
-using Bloxstrap.UI.Elements.Bootstrapper;
-using Bloxstrap.UI.Elements.Dialogs;
+using Lovestrap.UI.Elements.Bootstrapper;
+using Lovestrap.UI.Elements.Dialogs;
 
-namespace Bloxstrap.UI
+namespace Lovestrap.UI
 {
     static class Frontend
     {
@@ -72,7 +72,7 @@ namespace Bloxstrap.UI
                 App.Logger.WriteException(LOG_IDENT, ex);
 
                 if (!App.LaunchSettings.QuietFlag.Active)
-                    ShowMessageBox(string.Format(Strings.CustomTheme_Errors_SetupFailed, ex.Message, "Bloxstrap"), MessageBoxImage.Error); // NOTE: Bloxstrap is the theme name
+                    ShowMessageBox(string.Format(Strings.CustomTheme_Errors_SetupFailed, ex.Message, "Lovestrap"), MessageBoxImage.Error); // NOTE: Lovestrap is the theme name
 
                 return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
             }

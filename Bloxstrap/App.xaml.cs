@@ -6,7 +6,7 @@ using System.Windows.Threading;
 
 using Microsoft.Win32;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -79,7 +79,7 @@ namespace Bloxstrap
                 if (_webUrl != null)
                     return _webUrl;
 
-                string url = ConstructBloxstrapWebUrl();
+                string url = ConstructLovestrapWebUrl();
                 if (Settings.Loaded) // only cache if settings are done loading
                     _webUrl = url;
                 return url;
@@ -146,7 +146,7 @@ namespace Bloxstrap
             Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
         }
 
-        public static string ConstructBloxstrapWebUrl()
+        public static string ConstructLovestrapWebUrl()
         {
             // dont let user switch web environment if debug mode is not on
             if (Settings.Prop.WebEnvironment == WebEnvironment.Production || !Settings.Prop.DeveloperMode)

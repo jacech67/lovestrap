@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Bloxstrap.Extensions
+namespace Lovestrap.Extensions
 {
     static class CustomThemeTemplateEx
     {

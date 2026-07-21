@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 
-using Bloxstrap.UI.ViewModels.Settings;
+using Lovestrap.UI.ViewModels.Settings;
 
-namespace Bloxstrap.UI.Elements.Settings.Pages
+namespace Lovestrap.UI.Elements.Settings.Pages
 {
     /// <summary>
     /// Interaction logic for IntegrationsPage.xaml

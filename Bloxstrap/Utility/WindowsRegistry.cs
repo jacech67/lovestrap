@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace Bloxstrap.Utility
+namespace Lovestrap.Utility
 {
     static class WindowsRegistry
     {
@@ -30,7 +30,7 @@ namespace Bloxstrap.Utility
         }
 
         /// <summary>
-        /// Registers Roblox Player protocols for Bloxstrap
+        /// Registers Roblox Player protocols for Lovestrap
         /// </summary>
         public static void RegisterPlayer() => RegisterPlayer(Paths.Application, "-player \"%1\"");
 
@@ -41,7 +41,7 @@ namespace Bloxstrap.Utility
         }
 
         /// <summary>
-        /// Registers all Roblox Studio classes for Bloxstrap
+        /// Registers all Roblox Studio classes for Lovestrap
         /// </summary>
         public static void RegisterStudio()
         {

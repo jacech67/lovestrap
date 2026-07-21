@@ -1,6 +1,6 @@
-﻿using Bloxstrap.Models.RobloxApi;
+﻿using Lovestrap.Models.RobloxApi;
 
-namespace Bloxstrap.Models.Entities
+namespace Lovestrap.Models.Entities
 {
     public class UserDetails
     {

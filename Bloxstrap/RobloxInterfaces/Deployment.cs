@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.RobloxInterfaces
+﻿namespace Lovestrap.RobloxInterfaces
 {
     public static class Deployment
     {

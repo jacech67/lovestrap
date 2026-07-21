@@ -4,9 +4,9 @@ using CommunityToolkit.Mvvm.Input;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
 
-namespace Bloxstrap.UI.ViewModels.Settings
+namespace Lovestrap.UI.ViewModels.Settings
 {
-    public class BloxstrapViewModel : NotifyPropertyChangedViewModel
+    public class LovestrapViewModel : NotifyPropertyChangedViewModel
     {
         public WebEnvironment[] WebEnvironments => Enum.GetValues<WebEnvironment>();
 
@@ -42,7 +42,7 @@ namespace Bloxstrap.UI.ViewModels.Settings
 
             var dialog = new SaveFileDialog 
             { 
-                FileName = $"Bloxstrap-export-{timestamp}.zip",
+                FileName = $"Lovestrap-export-{timestamp}.zip",
                 Filter = $"{Strings.FileTypes_ZipArchive}|*.zip" 
             };
 
@@ -84,7 +84,7 @@ namespace Bloxstrap.UI.ViewModels.Settings
 
         private void AddFilesToZipStream(ZipOutputStream zipStream, IEnumerable<string> files, string directory)
         {
-            const string LOG_IDENT = "BloxstrapViewModel::AddFilesToZipStream";
+            const string LOG_IDENT = "LovestrapViewModel::AddFilesToZipStream";
 
             foreach (string file in files)
             {

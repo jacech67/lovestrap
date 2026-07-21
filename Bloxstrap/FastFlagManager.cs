@@ -1,6 +1,6 @@
-﻿using Bloxstrap.Enums.FlagPresets;
+﻿using Lovestrap.Enums.FlagPresets;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     public class FastFlagManager : JsonManager<Dictionary<string, object>>
     {

@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.Enums
+﻿namespace Lovestrap.Enums
 {
     public enum EmojiType
     {

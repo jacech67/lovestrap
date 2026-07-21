@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.Integrations
+﻿namespace Lovestrap.Integrations
 {
     public class ActivityWatcher : IDisposable
     {

@@ -1,12 +1,12 @@
-﻿<ui:UiPage x:Class="Bloxstrap.UI.Elements.About.Pages.LicensesPage"
+﻿<ui:UiPage x:Class="Lovestrap.UI.Elements.About.Pages.LicensesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:models="clr-namespace:Bloxstrap.UI.ViewModels"
-      xmlns:controls="clr-namespace:Bloxstrap.UI.Elements.Controls"
+      xmlns:models="clr-namespace:Lovestrap.UI.ViewModels"
+      xmlns:controls="clr-namespace:Lovestrap.UI.Elements.Controls"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-      xmlns:resources="clr-namespace:Bloxstrap.Resources"
+      xmlns:resources="clr-namespace:Lovestrap.Resources"
       mc:Ignorable="d"
       d:DesignHeight="1500" d:DesignWidth="800"
       Title="AboutPage"
@@ -27,7 +27,7 @@
 
             <ui:CardAction Grid.Row="0" Grid.Column="0" Margin="0,8,8,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/bloxstraplabs/bloxstrap/blob/main/LICENSE">
                 <StackPanel>
-                    <TextBlock FontSize="14" Text="Bloxstrap" />
+                    <TextBlock FontSize="14" Text="Lovestrap" />
                     <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_About_Licenses_MIT}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 </StackPanel>
             </ui:CardAction>

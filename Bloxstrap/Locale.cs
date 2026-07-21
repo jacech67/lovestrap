@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     internal static class Locale
     {

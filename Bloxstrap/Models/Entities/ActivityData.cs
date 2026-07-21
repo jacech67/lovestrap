@@ -1,11 +1,11 @@
 ﻿using System.Web;
 using System.Windows;
 using System.Windows.Input;
-using Bloxstrap.AppData;
-using Bloxstrap.Models.APIs;
+using Lovestrap.AppData;
+using Lovestrap.Models.APIs;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Bloxstrap.Models.Entities
+namespace Lovestrap.Models.Entities
 {
     public class ActivityData
     {

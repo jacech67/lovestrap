@@ -1,6 +1,6 @@
 using System.Timers;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     /// <summary>
     /// Periodically merges an external "injected flags" file into the active FastFlag

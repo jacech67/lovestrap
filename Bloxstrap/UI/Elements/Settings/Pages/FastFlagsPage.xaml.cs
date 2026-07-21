@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-using Bloxstrap.UI.ViewModels.Settings;
+using Lovestrap.UI.ViewModels.Settings;
 using Wpf.Ui.Mvvm.Contracts;
 
-namespace Bloxstrap.UI.Elements.Settings.Pages
+namespace Lovestrap.UI.Elements.Settings.Pages
 {
     /// <summary>
     /// Interaction logic for FastFlagsPage.xaml

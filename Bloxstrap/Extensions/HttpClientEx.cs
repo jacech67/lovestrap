@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloxstrap.Extensions
+namespace Lovestrap.Extensions
 {
     internal static class HttpClientEx
     {

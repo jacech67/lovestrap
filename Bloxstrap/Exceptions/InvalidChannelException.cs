@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.Exceptions
+﻿namespace Lovestrap.Exceptions
 {
     public class InvalidChannelException : Exception
     {

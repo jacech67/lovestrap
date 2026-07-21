@@ -1,10 +1,10 @@
-﻿using Bloxstrap.UI.Elements.Base;
-using Bloxstrap.UI.ViewModels.Dialogs;
+﻿using Lovestrap.UI.Elements.Base;
+using Lovestrap.UI.ViewModels.Dialogs;
 using Microsoft.Win32;
 using System.IO.Compression;
 using System.Windows;
 
-namespace Bloxstrap.UI.Elements.Dialogs
+namespace Lovestrap.UI.Elements.Dialogs
 {
     /// <summary>
     /// Interaction logic for AddCustomThemeDialog.xaml

@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Bloxstrap.UI.ViewModels.Settings;
+using Lovestrap.UI.ViewModels.Settings;
 
-namespace Bloxstrap.UI.Elements.Settings.Pages
+namespace Lovestrap.UI.Elements.Settings.Pages
 {
     /// <summary>
-    /// Interaction logic for BloxstrapPage.xaml
+    /// Interaction logic for LovestrapPage.xaml
     /// </summary>
-    public partial class BloxstrapPage
+    public partial class LovestrapPage
     {
-        public BloxstrapPage()
+        public LovestrapPage()
         {
-            DataContext = new BloxstrapViewModel();
+            DataContext = new LovestrapViewModel();
             InitializeComponent();
         }
     }

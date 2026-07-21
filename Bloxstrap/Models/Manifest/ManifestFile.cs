@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.Models.Manifest
+﻿namespace Lovestrap.Models.Manifest
 {
     public class ManifestFile
     {

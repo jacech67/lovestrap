@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Bloxstrap.Models.Persistable
+namespace Lovestrap.Models.Persistable
 {
     public class Settings
     {

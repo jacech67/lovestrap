@@ -1,11 +1,11 @@
-﻿using Bloxstrap.Extensions;
+﻿using Lovestrap.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bloxstrap.Exceptions
+namespace Lovestrap.Exceptions
 {
     internal class CustomThemeException : Exception
     {

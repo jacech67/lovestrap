@@ -3,9 +3,9 @@ using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.Input;
 
-using Bloxstrap.Enums.FlagPresets;
+using Lovestrap.Enums.FlagPresets;
 
-namespace Bloxstrap.UI.ViewModels.Settings
+namespace Lovestrap.UI.ViewModels.Settings
 {
     public class FastFlagsViewModel : NotifyPropertyChangedViewModel
     {

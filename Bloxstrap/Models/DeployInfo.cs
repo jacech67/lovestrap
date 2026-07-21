@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.Models
+﻿namespace Lovestrap.Models
 {
     public class DeployInfo
     {
