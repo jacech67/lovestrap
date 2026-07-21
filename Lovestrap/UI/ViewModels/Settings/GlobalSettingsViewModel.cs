@@ -16,7 +16,7 @@ namespace Lovestrap.UI.ViewModels.Settings
         // GraphicsQualityLevel (1-21) from it at runtime, so we only write this one.
         public int GraphicsQuality
         {
-            get => Int32.TryParse(RobloxGlobalSettings.GetProperty("SavedQualityLevel"), out int v) ? Math.Clamp(v, 1, 10) : 1;
+            get => Int32.TryParse(RobloxGlobalSettings.GetProperty("SavedQualityLevel"), out int v) ? Math.Clamp(v, 1, 21) : 1;
             set => RobloxGlobalSettings.SetProperty("token", "SavedQualityLevel", value.ToString());
         }
 
