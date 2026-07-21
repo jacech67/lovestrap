@@ -1,5 +1,5 @@
 > [!CAUTION]
-> The only official places to download Lovestrap are this GitHub repository and [bloxstraplabs.com](https://bloxstraplabs.com). Any other websites offering downloads or claiming to be us are not owned by us.
+> The only official places to download Lovestrap are this GitHub repository and [discord.gg/soarr](discord.gg/soarr). Any other websites offering downloads or claiming to be us are not owned by us.
 
 > [!IMPORTANT]
 > Lovestrap is not under active development anymore. Any issues or pull requests opened may take a while to get a response.
@@ -25,7 +25,7 @@
 
 Lovestrap is a third-party replacement for the standard Roblox bootstrapper, providing additional useful features and improvements.
 
-Running into a problem or need help with something? [Check out the Wiki](https://bloxstraplabs.com/wiki). If you can't find anything, or would like to suggest something, please [submit an issue](https://github.com/bloxstraplabs/bloxstrap/issues).
+Running into a problem or need help with something? [Check out the extras page!](discord.gg/soarr). If you can't find anything, or would like to suggest something, please [submit an issue](discord.gg/soarr).
 
 Lovestrap is only supported for PCs running Windows.
 
@@ -33,7 +33,7 @@ Lovestrap is only supported for PCs running Windows.
 
 **Q: Is this malware?**
 
-**A:** No. The source code here is viewable to all, and it'd be impossible for us to slip anything malicious into the downloads without anyone noticing. Just be sure you're downloading it from an official source. The only two official sources are this GitHub repository and [bloxstraplabs.com](https://bloxstraplabs.com).
+**A:** No. The source code here is viewable to all, and it'd be impossible for us to slip anything malicious into the downloads without anyone noticing. Just be sure you're downloading it from an official source. The only two official sources are this GitHub repository and [discord.gg/soarr](discord.gg/soarr).
 
 **Q: Can using this get me banned?**
 
