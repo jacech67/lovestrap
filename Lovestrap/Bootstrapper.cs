@@ -305,23 +305,8 @@ namespace Lovestrap
                         Frontend.ShowBalloonTip(Strings.Bootstrapper_ModificationsFailed_Title, Strings.Bootstrapper_ModificationsFailed_Message, ToolTipIcon.Warning);
                 }
 
-                if (_launchMode == LaunchMode.Player)
-                {
-                    TextureMeshMode textureMode = App.Settings.Prop.TextureMeshMode;
-
-                    if (textureMode != TextureMeshMode.Normal)
-                        SetStatus("Preparing texture replacement companion...");
-
-                    bool textureReplacementReady = await TextureAssetReplacementManager.PrepareForLaunchAsync(textureMode, _cancelTokenSource.Token);
-                    if (!textureReplacementReady)
-                    {
-                        Frontend.ShowMessageBox(
-                            "The texture replacement companion could not be prepared, so Roblox was not started. Complete or allow the Fleasion administrator prompt, then launch again. Set the preset to Normal to launch without asset replacement.",
-                            MessageBoxImage.Warning);
-                        return;
-                    }
-                }
-
+                // Texture presets (including Blurry) are applied purely through FastFlags at
+                // launch. No external texture-replacement companion is used.
                 StartRoblox();
             }
 

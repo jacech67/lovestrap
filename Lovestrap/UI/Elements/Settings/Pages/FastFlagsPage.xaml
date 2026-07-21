@@ -29,15 +29,6 @@
             <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
         </controls:OptionControl>
 
-        <ui:InfoBar
-            Margin="0,12,0,4"
-            Padding="10"
-            Title="Account risk warning"
-            Message="Roblox only permits selected local FastFlags. Unapproved flags may be ignored and attempts to bypass Roblox restrictions can put your account at risk. Use custom FastFlags at your own caution."
-            Severity="Warning"
-            IsOpen="True"
-            IsClosable="False" />
-
         <controls:OptionControl
             Header="Enable Fast Flag Injector"
             Description="Watches Modifications\\ClientSettings\\InjectedFlags.json, saves every external edit, and deploys it without closing or restarting Roblox. Startup-only flags apply on a later launch.">
@@ -56,7 +47,7 @@
 
         <controls:OptionControl
             Header="Texture and mesh preset"
-            Description="Choose the graphics preset that Lovestrap queues for the next Roblox launch.">
+            Description="Choose the graphics preset applied on the next Roblox launch. Applied purely through FastFlags.">
             <ComboBox
                 Margin="5,0,0,0"
                 Padding="10,5,10,5"
@@ -65,16 +56,7 @@
                 SelectedItem="{Binding SelectedTextureMeshMode, Mode=TwoWay}" />
         </controls:OptionControl>
 
-        <ui:InfoBar
-            Margin="0,8,0,4"
-            Padding="10"
-            Title="Optional Fleasion companion"
-            Message="Blurry and ZeroTextures use the official Fleasion asset proxy and the supplied replacement IDs. It needs an administrator prompt because it configures a local proxy. Lovestrap never closes or restarts Roblox; if Roblox is open, the change stays queued for the next launch."
-            Severity="Warning"
-            IsOpen="True"
-            IsClosable="False" />
-
-        <TextBlock Margin="4,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Normal: original assets • Blurry: replaces 7658055825 with the bundled local blurry PNG • ZeroTextures: 7658055825 → 15403233827. Press Save before launching Roblox." />
+        <TextBlock Margin="4,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Normal: original quality • Blurry: lowest texture quality for a blurry look (works in every game, including Rivals) • ZeroTextures: minimum texture and mesh detail. Press Save before launching Roblox." />
 
         <!-- ================= Rendering and Graphics ================= -->
         <TextBlock Text="Rendering and Graphics" FontSize="16" FontWeight="Medium" Margin="0,20,0,0" />

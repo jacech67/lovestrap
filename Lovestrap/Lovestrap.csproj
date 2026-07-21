@@ -13,8 +13,8 @@
     <AssemblyTitle>Lovestrap</AssemblyTitle>
     <Company>Lovestrap</Company>
     <ApplicationIcon>Lovestrap.ico</ApplicationIcon>
-    <Version>2.15.0</Version>
-    <FileVersion>2.15.0</FileVersion>
+    <Version>2.16.0</Version>
+    <FileVersion>2.16.0</FileVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
@@ -56,7 +56,6 @@
     <EmbeddedResource Include="Resources\Mods\Sounds\OldWalk.mp3" />
     <EmbeddedResource Include="Resources\Mods\Sounds\Empty.mp3" />
     <EmbeddedResource Include="Resources\Mods\OldAvatarBackground.rbxl" />
-    <EmbeddedResource Include="Resources\Mods\Textures\BlurryTexture.png" />
   </ItemGroup>
 
   <ItemGroup>
