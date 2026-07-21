@@ -25,8 +25,18 @@ namespace Lovestrap
             { "Rendering.TextureQuality.OverrideEnabled", "DFFlagTextureQualityOverrideEnabled" },
             { "Rendering.TextureQuality.Level", "DFIntTextureQualityOverride" },
 
-            // lowest-level helper: forces Roblox to always pick the worst texture mip
-            { "Rendering.MeshQuality.ForceLowTextures", "DFIntPerformanceControlTextureQualityBestScreenSize" },
+            // Mesh detail: CSG/mesh level-of-detail switching distances (lower = meshes lose detail / disappear)
+            { "Rendering.MeshDetail.L12", "DFIntCSGLevelOfDetailSwitchingDistanceL12" },
+            { "Rendering.MeshDetail.L23", "DFIntCSGLevelOfDetailSwitchingDistanceL23" },
+            { "Rendering.MeshDetail.L34", "DFIntCSGLevelOfDetailSwitchingDistanceL34" },
+
+            // FRM (frame-rate manager) quality level override
+            { "Rendering.FRMQuality", "DFIntDebugFRMQualityLevelOverride" },
+
+            // rendering mode / graphics API preference
+            { "Rendering.Mode.Vulkan", "FFlagDebugGraphicsPreferVulkan" },
+            { "Rendering.Mode.D3D11", "FFlagDebugGraphicsPreferD3D11" },
+            { "Rendering.Mode.OpenGL", "FFlagDebugGraphicsPreferOpenGL" },
 
             // simple on/off rendering presets
             { "Rendering.GraySky", "FFlagDebugSkyGray" },
@@ -35,41 +45,68 @@ namespace Lovestrap
             { "Rendering.DisableGrass.Detail", "FIntRenderGrassDetailStuds" },
         };
 
-        // 4-point mesh/texture quality, driven through Roblox's texture-quality override:
-        //   3 = Normal | 2 = Pixelated icons | 1 = Pixelated meshes + icons | 0 = No mesh textures + pixelated icons
-        // Full (3) is normal; the lower you go, the more pixelated textures become.
-        public const int MeshQualityNormal = 3;
-
-        public void SetMeshQuality(int level)
+        // ---- Mesh detail (0-100 quality: 100 = full detail, 0 = meshes drop to lowest LOD / disappear) ----
+        private static readonly Dictionary<string, int> MeshDetailBase = new()
         {
-            if (level >= MeshQualityNormal)
-            {
-                // Normal - clear every quality override
-                SetPreset("Rendering.TextureQuality", null);
-                SetValue(PresetFlags["Rendering.MeshQuality.ForceLowTextures"], null);
-                return;
-            }
+            { "Rendering.MeshDetail.L12", 250 },
+            { "Rendering.MeshDetail.L23", 500 },
+            { "Rendering.MeshDetail.L34", 750 },
+        };
 
-            level = Math.Clamp(level, 0, 2);
+        public const int MeshDetailMax = 100;
 
-            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], "True");
-            SetValue(PresetFlags["Rendering.TextureQuality.Level"], level);
+        public bool GetMeshDetailEnabled() => GetPreset("Rendering.MeshDetail.L12") is not null;
 
-            // lowest level: force worst-case texture mips so mesh textures effectively drop out
-            SetValue(PresetFlags["Rendering.MeshQuality.ForceLowTextures"], level == 0 ? 1 : null);
+        public void SetMeshDetailEnabled(bool enabled)
+        {
+            if (enabled)
+                SetMeshDetail(GetMeshDetail());        // materialise the flags at the current level
+            else
+                foreach (var pair in MeshDetailBase)   // remove them
+                    SetValue(PresetFlags[pair.Key], null);
         }
 
-        public int GetMeshQuality()
+        public void SetMeshDetail(int quality)
         {
-            if (GetPreset("Rendering.TextureQuality.OverrideEnabled") != "True")
-                return MeshQualityNormal;
+            quality = Math.Clamp(quality, 0, MeshDetailMax);
+            double factor = quality / (double)MeshDetailMax;
 
-            string? raw = GetPreset("Rendering.TextureQuality.Level");
+            foreach (var pair in MeshDetailBase)
+                SetValue(PresetFlags[pair.Key], (int)Math.Round(pair.Value * factor));
+        }
 
-            if (raw is null || !Int32.TryParse(raw, out int level))
-                return MeshQualityNormal;
+        public int GetMeshDetail()
+        {
+            string? raw = GetPreset("Rendering.MeshDetail.L12");
 
-            return Math.Clamp(level, 0, 2);
+            if (raw is null || !Int32.TryParse(raw, out int value))
+                return MeshDetailMax;
+
+            return Math.Clamp((int)Math.Round((double)value / MeshDetailBase["Rendering.MeshDetail.L12"] * MeshDetailMax), 0, MeshDetailMax);
+        }
+
+        // ---- Rendering mode (graphics API) ----
+        public void SetRenderingMode(RenderingMode mode)
+        {
+            // clear all preference flags first
+            SetValue(PresetFlags["Rendering.Mode.Vulkan"], null);
+            SetValue(PresetFlags["Rendering.Mode.D3D11"], null);
+            SetValue(PresetFlags["Rendering.Mode.OpenGL"], null);
+
+            switch (mode)
+            {
+                case RenderingMode.Vulkan: SetValue(PresetFlags["Rendering.Mode.Vulkan"], "True"); break;
+                case RenderingMode.D3D11:  SetValue(PresetFlags["Rendering.Mode.D3D11"], "True"); break;
+                case RenderingMode.OpenGL: SetValue(PresetFlags["Rendering.Mode.OpenGL"], "True"); break;
+            }
+        }
+
+        public RenderingMode GetRenderingMode()
+        {
+            if (GetPreset("Rendering.Mode.Vulkan") == "True") return RenderingMode.Vulkan;
+            if (GetPreset("Rendering.Mode.D3D11")  == "True") return RenderingMode.D3D11;
+            if (GetPreset("Rendering.Mode.OpenGL") == "True") return RenderingMode.OpenGL;
+            return RenderingMode.Default;
         }
 
         public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes => new Dictionary<MSAAMode, string?>

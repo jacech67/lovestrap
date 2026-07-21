@@ -379,8 +379,9 @@ namespace Lovestrap
                 State.Load();
                 FastFlags.Load();
 
-                // start the 5-minute injectable fastflag refresher
-                FastFlagInjector.Start();
+                // start the injectable fastflag refresher (if enabled in settings)
+                if (Settings.Prop.EnableFastFlagInjector)
+                    FastFlagInjector.Start();
 
                 if (!Locale.SupportedLocales.ContainsKey(Settings.Prop.Locale))
                 {
