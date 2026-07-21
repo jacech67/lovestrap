@@ -19,10 +19,11 @@ namespace Lovestrap
         public const string ProjectName = "Lovestrap";
 #endif
         public const string ProjectOwner = "Lovestrap";
-        public const string ProjectRepository = "bloxstraplabs/bloxstrap";
-        public const string ProjectDownloadLink = "https://bloxstraplabs.com";
-        public const string ProjectHelpLink = "https://bloxstraplabs.com/wiki/help/";
-        public const string ProjectSupportLink = "https://github.com/bloxstraplabs/bloxstrap/issues/new";
+        // Auto-updater pulls releases from this repo. Change the owner if your GitHub username differs.
+        public const string ProjectRepository = "jacegirton/lovestrap";
+        public const string ProjectDownloadLink = "https://github.com/jacegirton/lovestrap/releases/latest";
+        public const string ProjectHelpLink = "https://github.com/jacegirton/lovestrap";
+        public const string ProjectSupportLink = "https://github.com/jacegirton/lovestrap/issues/new";
 
         public const string RobloxPlayerAppName = "RobloxPlayerBeta";
         public const string RobloxStudioAppName = "RobloxStudioBeta";
