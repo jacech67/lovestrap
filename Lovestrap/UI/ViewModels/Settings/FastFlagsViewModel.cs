@@ -60,11 +60,23 @@ namespace Lovestrap.UI.ViewModels.Settings
                 }
             }
         }
-        public int MeshQualityScale
+        public int MeshQualityLevel
         {
             get => App.FastFlags.GetMeshQuality();
-            set => App.FastFlags.SetMeshQuality(value);
+            set
+            {
+                App.FastFlags.SetMeshQuality(value);
+                OnPropertyChanged(nameof(MeshQualityLabel));
+            }
         }
+
+        public string MeshQualityLabel => App.FastFlags.GetMeshQuality() switch
+        {
+            0 => "No mesh textures + pixelated icons",
+            1 => "Pixelated meshes + icons",
+            2 => "Pixelated icons",
+            _ => "Normal"
+        };
 
         public bool ResetConfiguration
         {

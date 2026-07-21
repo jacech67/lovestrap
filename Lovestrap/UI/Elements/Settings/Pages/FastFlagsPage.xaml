@@ -44,23 +44,12 @@
             <ui:ToggleSwitch IsChecked="{Binding FixDisplayScaling, Mode=TwoWay}" />
         </controls:OptionControl>
 
-        <controls:OptionControl 
-            Header="{x:Static resources:Strings.Menu_FastFlags_Presets_TextureQuality_Title}">
-            <ComboBox Margin="5,0,0,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding TextureQualities.Keys, Mode=OneTime}" Text="{Binding SelectedTextureQuality, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </controls:OptionControl>
-
         <controls:OptionControl
-            Header="Mesh quality"
-            Description="Scales mesh/geometry level-of-detail distance. 0 = default, higher keeps meshes detailed further away.">
+            Header="Mesh Quality"
+            Description="Full (right) = normal. Turn it down to pixelate more. Steps: Normal → Pixelated icons → Pixelated meshes + icons → No mesh textures + pixelated icons.">
             <StackPanel Orientation="Horizontal">
-                <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding MeshQualityScale, Mode=TwoWay}" />
-                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Width="40" Text="{Binding MeshQualityScale, Mode=OneWay}" />
+                <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="3" TickFrequency="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Value="{Binding MeshQualityLevel, Mode=TwoWay}" />
+                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" MinWidth="210" Text="{Binding MeshQualityLabel, Mode=OneWay}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             </StackPanel>
         </controls:OptionControl>
 
