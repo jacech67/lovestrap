@@ -31,9 +31,9 @@ Lovestrap is only supported for PCs running Windows.
 
 ## Frequently Asked Questions
 
-**Q: Is this malware?**
+**Q: Does Noah have cancer?**
 
-**A:** No. The source code here is viewable to all, and it'd be impossible for us to slip anything malicious into the downloads without anyone noticing. Just be sure you're downloading it from an official source. The only two official sources are this GitHub repository and [discord.gg/soarr](discord.gg/soarr).
+**A:** Yes.
 
 **Q: Can using this get me banned?**
 
