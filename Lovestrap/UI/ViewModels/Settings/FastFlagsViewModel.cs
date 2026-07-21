@@ -60,16 +60,72 @@ namespace Lovestrap.UI.ViewModels.Settings
                 }
             }
         }
-        public int MeshQualityLevel
+        public bool EnableFastFlagInjector
         {
-            get => App.FastFlags.GetMeshQuality();
+            get => App.Settings.Prop.EnableFastFlagInjector;
             set
             {
-                App.FastFlags.SetMeshQuality(value);
-                OnPropertyChanged(nameof(MeshQualityLabel));
+                App.Settings.Prop.EnableFastFlagInjector = value;
+
+                if (value)
+                    App.FastFlagInjector.Start();
+                else
+                    App.FastFlagInjector.Stop();
             }
         }
 
+        // ---- Geometry: Mesh detail ----
+        public bool MeshDetailEnabled
+        {
+            get => App.FastFlags.GetMeshDetailEnabled();
+            set
+            {
+                App.FastFlags.SetMeshDetailEnabled(value);
+                OnPropertyChanged(nameof(MeshDetailEnabled));
+            }
+        }
+
+        public int MeshDetailLevel
+        {
+            get => App.FastFlags.GetMeshDetail();
+            set => App.FastFlags.SetMeshDetail(value);
+        }
+
+        // ---- FRM quality override ----
+        public bool FRMQualityEnabled
+        {
+            get => App.FastFlags.GetPreset("Rendering.FRMQuality") is not null;
+            set
+            {
+                App.FastFlags.SetValue(FastFlagManager.PresetFlags["Rendering.FRMQuality"], value ? FRMQualityLevel : (object?)null);
+                OnPropertyChanged(nameof(FRMQualityEnabled));
+            }
+        }
+
+        public int FRMQualityLevel
+        {
+            get
+            {
+                string? raw = App.FastFlags.GetPreset("Rendering.FRMQuality");
+                return raw is not null && Int32.TryParse(raw, out int v) ? Math.Clamp(v, 1, 21) : 1;
+            }
+            set
+            {
+                if (FRMQualityEnabled)
+                    App.FastFlags.SetValue(FastFlagManager.PresetFlags["Rendering.FRMQuality"], Math.Clamp(value, 1, 21));
+            }
+        }
+
+        // ---- Rendering mode ----
+        public IReadOnlyList<RenderingMode> RenderingModes { get; } = Enum.GetValues<RenderingMode>();
+
+        public RenderingMode SelectedRenderingMode
+        {
+            get => App.FastFlags.GetRenderingMode();
+            set => App.FastFlags.SetRenderingMode(value);
+        }
+
+        // ---- simple rendering toggles ----
         public bool GraySky
         {
             get => App.FastFlags.GetPreset("Rendering.GraySky") == "True";
@@ -87,14 +143,6 @@ namespace Lovestrap.UI.ViewModels.Settings
             get => App.FastFlags.GetPreset("Rendering.DisableGrass.MaxDistance") == "0";
             set => App.FastFlags.SetPreset("Rendering.DisableGrass", value ? "0" : null);
         }
-
-        public string MeshQualityLabel => App.FastFlags.GetMeshQuality() switch
-        {
-            0 => "No mesh textures + pixelated icons",
-            1 => "Pixelated meshes + icons",
-            2 => "Pixelated icons",
-            _ => "Normal"
-        };
 
         public bool ResetConfiguration
         {

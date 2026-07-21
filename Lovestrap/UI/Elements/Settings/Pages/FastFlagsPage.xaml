@@ -15,18 +15,62 @@
     <StackPanel Margin="0,0,14,14">
         <TextBlock Margin="0,0,0,16" Text="{x:Static resources:Strings.Menu_FastFlags_Description}" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
 
-        <controls:OptionControl 
+        <!-- Editor + manager controls at the top -->
+        <ui:CardAction Icon="Wand24" Command="{Binding OpenFastFlagEditorCommand}" Visibility="{Binding CanShowFastFlagEditor}">
+            <StackPanel>
+                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_FastFlagEditor_Title}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_FastFlags_Editor_Description}" Padding="0,0,16,0"  Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+        </ui:CardAction>
+
+        <controls:OptionControl
             Header="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Title}"
             Description="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Description}">
             <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
         </controls:OptionControl>
 
-        <TextBlock Text="{x:Static resources:Strings.Common_Presets}" FontSize="20" FontWeight="Medium" Margin="0,16,0,0" />
+        <controls:OptionControl
+            Header="Enable Fast Flag Injector"
+            Description="Watches your fast flags and re-applies them automatically (also refreshes every 5 minutes). Changes take effect the next time Roblox launches.">
+            <ui:ToggleSwitch IsChecked="{Binding EnableFastFlagInjector, Mode=TwoWay}" />
+        </controls:OptionControl>
 
-        <TextBlock Text="{x:Static resources:Strings.Menu_FastFlags_Presets_Categories_Rendering}" FontSize="16" FontWeight="Medium" Margin="0,16,0,0" />
-        <controls:MarkdownTextBlock MarkdownText="{Binding Source={x:Static resources:Strings.Menu_FastFlags_Presets_D3DExclusiveFullscreenInfo}, Converter={StaticResource StringFormatConverter}, ConverterParameter='https://bloxstraplabs.com/wiki/features/engine-settings/#exclusive-fullscreen'}"  Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <controls:OptionControl
+            Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
+            <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />
+        </controls:OptionControl>
 
-        <controls:OptionControl 
+        <TextBlock Text="{x:Static resources:Strings.Common_Presets}" FontSize="20" FontWeight="Medium" Margin="0,20,0,0" />
+
+        <!-- ================= Geometry ================= -->
+        <TextBlock Text="Geometry" FontSize="16" FontWeight="Medium" Margin="0,16,0,0" />
+
+        <controls:OptionControl
+            Header="Mesh detail"
+            Description="Control how detailed meshes appear in-game.">
+            <ui:ToggleSwitch IsChecked="{Binding MeshDetailEnabled, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <ui:Card Margin="0,8,0,0">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Lower qualities may cause meshes to disappear." />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Lowest quality" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <Slider Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" Minimum="0" Maximum="100" IsEnabled="{Binding MeshDetailEnabled}" Value="{Binding MeshDetailLevel, Mode=TwoWay}" />
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Highest quality" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                </Grid>
+            </StackPanel>
+        </ui:Card>
+
+        <!-- ================= Rendering and Graphics ================= -->
+        <TextBlock Text="Rendering and Graphics" FontSize="16" FontWeight="Medium" Margin="0,20,0,0" />
+
+        <controls:OptionControl
             Header="{x:Static resources:Strings.Menu_FastFlags_Presets_MSAA_Title}">
             <ComboBox Margin="5,0,0,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding MSAALevels.Keys, Mode=OneTime}" Text="{Binding SelectedMSAALevel, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
@@ -37,20 +81,57 @@
             </ComboBox>
         </controls:OptionControl>
 
-        <controls:OptionControl 
-            Header="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Title}" 
-            Description="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Description}" 
+        <controls:OptionControl
+            Header="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Title}"
+            Description="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Description}"
             HelpLink="https://bloxstraplabs.com/wiki/features/engine-settings/#preserving-rendering-quality">
             <ui:ToggleSwitch IsChecked="{Binding FixDisplayScaling, Mode=TwoWay}" />
         </controls:OptionControl>
 
         <controls:OptionControl
-            Header="Mesh Quality"
-            Description="Full (right) = normal. Turn it down to pixelate more. Steps: Normal → Pixelated icons → Pixelated meshes + icons → No mesh textures + pixelated icons.">
-            <StackPanel Orientation="Horizontal">
-                <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="3" TickFrequency="1" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Value="{Binding MeshQualityLevel, Mode=TwoWay}" />
-                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" MinWidth="210" Text="{Binding MeshQualityLabel, Mode=OneWay}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            </StackPanel>
+            Header="FRM Quality Override"
+            Description="Choose the FRM (render) quality level Roblox should use.">
+            <ui:ToggleSwitch IsChecked="{Binding FRMQualityEnabled, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <ui:Card Margin="0,8,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="Lowest quality" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <Slider Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" Minimum="1" Maximum="21" IsSnapToTickEnabled="True" TickFrequency="1" IsEnabled="{Binding FRMQualityEnabled}" Value="{Binding FRMQualityLevel, Mode=TwoWay}" />
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="Highest quality" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <Border Grid.Column="3" Margin="12,0,0,0" MinWidth="28" Padding="6,2" CornerRadius="4" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding FRMQualityLevel, Mode=OneWay}" />
+                </Border>
+            </Grid>
+        </ui:Card>
+
+        <controls:OptionControl
+            Header="Rendering mode"
+            Description="Choose which graphics API Roblox should use.">
+            <ComboBox Margin="5,0,0,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding RenderingModes, Mode=OneTime}" Text="{Binding SelectedRenderingMode, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:OptionControl>
+
+        <controls:OptionControl
+            Header="Texture quality">
+            <ComboBox Margin="5,0,0,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding TextureQualities.Keys, Mode=OneTime}" Text="{Binding SelectedTextureQuality, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </controls:OptionControl>
 
         <controls:OptionControl
@@ -70,18 +151,5 @@
             Description="Disables baked shadows to improve performance, but may cause lighting issues in some games.">
             <ui:ToggleSwitch IsChecked="{Binding PauseVoxelizer, Mode=TwoWay}" />
         </controls:OptionControl>
-
-        <controls:OptionControl
-            Margin="0,24,0,0"
-            Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
-            <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />
-        </controls:OptionControl>
-
-        <ui:CardAction Margin="0,8,0,0" Icon="EditSettings24" Command="{Binding OpenFastFlagEditorCommand}" Visibility="{Binding CanShowFastFlagEditor}">
-            <StackPanel>
-                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_FastFlagEditor_Title}" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_FastFlags_Editor_Description}" Padding="0,0,16,0"  Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-            </StackPanel>
-        </ui:CardAction>
     </StackPanel>
 </ui:UiPage>
