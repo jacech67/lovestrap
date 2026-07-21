@@ -1,7 +1,7 @@
-﻿using Bloxstrap.AppData;
+﻿using Lovestrap.AppData;
 using System.ComponentModel;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     static class Utilities
     {

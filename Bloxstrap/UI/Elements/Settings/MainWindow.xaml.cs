@@ -5,9 +5,9 @@ using System.Windows.Controls;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
-using Bloxstrap.UI.ViewModels.Settings;
+using Lovestrap.UI.ViewModels.Settings;
 
-namespace Bloxstrap.UI.Elements.Settings
+namespace Lovestrap.UI.Elements.Settings
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

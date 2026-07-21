@@ -3,10 +3,10 @@
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
-using Bloxstrap.UI.Elements.Dialogs;
-using Bloxstrap.Enums;
+using Lovestrap.UI.Elements.Dialogs;
+using Lovestrap.Enums;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     public static class LaunchHandler
     {

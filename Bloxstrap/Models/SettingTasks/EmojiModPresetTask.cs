@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 
-using Bloxstrap.Models.SettingTasks.Base;
+using Lovestrap.Models.SettingTasks.Base;
 
-namespace Bloxstrap.Models.SettingTasks
+namespace Lovestrap.Models.SettingTasks
 {
     public class EmojiModPresetTask : EnumBaseTask<EmojiType>
     {

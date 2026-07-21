@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.Models.APIs.Config
+﻿namespace Lovestrap.Models.APIs.Config
 {
     public class SupporterGroup
     {

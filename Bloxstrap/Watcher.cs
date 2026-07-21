@@ -1,8 +1,8 @@
-﻿using Bloxstrap.AppData;
-using Bloxstrap.Integrations;
-using Bloxstrap.Models;
+﻿using Lovestrap.AppData;
+using Lovestrap.Integrations;
+using Lovestrap.Models;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     public class Watcher : IDisposable
     {

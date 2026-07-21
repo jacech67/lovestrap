@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Bloxstrap.Utility
+namespace Lovestrap.Utility
 {
     public static class MD5Hash
     {

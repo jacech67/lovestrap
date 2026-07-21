@@ -8,11 +8,11 @@ using ICSharpCode.SharpZipLib.Zip;
 
 using Microsoft.Win32;
 
-using Bloxstrap.UI.Elements.Settings;
-using Bloxstrap.UI.Elements.Editor;
-using Bloxstrap.UI.Elements.Dialogs;
+using Lovestrap.UI.Elements.Settings;
+using Lovestrap.UI.Elements.Editor;
+using Lovestrap.UI.Elements.Dialogs;
 
-namespace Bloxstrap.UI.ViewModels.Settings
+namespace Lovestrap.UI.ViewModels.Settings
 {
     public class AppearanceViewModel : NotifyPropertyChangedViewModel
     {

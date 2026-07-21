@@ -1,9 +1,9 @@
-﻿using Bloxstrap.UI.ViewModels.About;
+﻿using Lovestrap.UI.ViewModels.About;
 
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-namespace Bloxstrap.UI.Elements.About.Pages
+namespace Lovestrap.UI.Elements.About.Pages
 {
     /// <summary>
     /// Interaction logic for AboutPage.xaml

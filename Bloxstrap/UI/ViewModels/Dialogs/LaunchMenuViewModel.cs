@@ -2,9 +2,9 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 
-using Bloxstrap.UI.Elements.About;
+using Lovestrap.UI.Elements.About;
 
-namespace Bloxstrap.UI.ViewModels.Installer
+namespace Lovestrap.UI.ViewModels.Installer
 {
     public class LaunchMenuViewModel
     {

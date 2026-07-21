@@ -19,13 +19,13 @@ using System.Windows.Shell;
 
 using Microsoft.Win32;
 
-using Bloxstrap.AppData;
-using Bloxstrap.RobloxInterfaces;
-using Bloxstrap.UI.Elements.Bootstrapper.Base;
+using Lovestrap.AppData;
+using Lovestrap.RobloxInterfaces;
+using Lovestrap.UI.Elements.Bootstrapper.Base;
 
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace Bloxstrap
+namespace Lovestrap
 {
     public class Bootstrapper
     {
@@ -74,9 +74,9 @@ namespace Bloxstrap
         public bool IsStudioLaunch => _launchMode != LaunchMode.Player;
 
         public string MutexName => $"{MutexNamePrefix}-{_launchMode}";
-        public string BackgroundUpdaterMutexName => $"Bloxstrap-BackgroundUpdater-{_launchMode}";
+        public string BackgroundUpdaterMutexName => $"Lovestrap-BackgroundUpdater-{_launchMode}";
 
-        public string MutexNamePrefix { get; set; } = "Bloxstrap-Bootstrapper";
+        public string MutexNamePrefix { get; set; } = "Lovestrap-Bootstrapper";
         public bool QuitIfMutexExists { get; set; } = false;
         #endregion
 
@@ -767,8 +767,8 @@ namespace Bloxstrap
             const string LOG_IDENT = "Bootstrapper::CheckForUpdates";
 
             // Lovestrap fork: self-update is disabled. The upstream release feed
-            // (App.ProjectRepository) points at Bloxstrap, so auto-updating would
-            // replace this rebranded build with stock Bloxstrap. Skip entirely.
+            // (App.ProjectRepository) points at Lovestrap, so auto-updating would
+            // replace this rebranded build with stock Lovestrap. Skip entirely.
             App.Logger.WriteLine(LOG_IDENT, "Self-update is disabled in this build");
             return false;
 #pragma warning disable CS0162 // unreachable code left intentionally for upstream diffs
@@ -776,7 +776,7 @@ namespace Bloxstrap
             // i don't like this, but there isn't much better way of doing it /shrug
             if (Process.GetProcessesByName(App.ProjectName).Length > 1)
             {
-                App.Logger.WriteLine(LOG_IDENT, $"More than one Bloxstrap instance running, aborting update check");
+                App.Logger.WriteLine(LOG_IDENT, $"More than one Lovestrap instance running, aborting update check");
                 return false;
             }
 
@@ -810,7 +810,7 @@ namespace Bloxstrap
             try
             {
 #if DEBUG_UPDATER
-                string downloadLocation = Path.Combine(Paths.TempUpdates, "Bloxstrap.exe");
+                string downloadLocation = Path.Combine(Paths.TempUpdates, "Lovestrap.exe");
 
                 Directory.CreateDirectory(Paths.TempUpdates);
 

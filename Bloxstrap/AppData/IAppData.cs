@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap.AppData
+﻿namespace Lovestrap.AppData
 {
     internal interface IAppData
     {

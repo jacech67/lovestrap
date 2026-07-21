@@ -1,4 +1,4 @@
-﻿namespace Bloxstrap
+﻿namespace Lovestrap
 {
     // https://stackoverflow.com/a/53873141/11852173
 

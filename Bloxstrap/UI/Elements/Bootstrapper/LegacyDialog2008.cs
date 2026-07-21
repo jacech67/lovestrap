@@ -1,8 +1,8 @@
 using System.Windows.Forms;
 
-using Bloxstrap.UI.Elements.Bootstrapper.Base;
+using Lovestrap.UI.Elements.Bootstrapper.Base;
 
-namespace Bloxstrap.UI.Elements.Bootstrapper
+namespace Lovestrap.UI.Elements.Bootstrapper
 {
     // windows: https://youtu.be/VpduiruysuM?t=18
     // mac: https://youtu.be/ncHhbcVDRgQ?t=63

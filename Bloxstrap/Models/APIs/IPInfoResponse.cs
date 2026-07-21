@@ -1,4 +1,4 @@
-namespace Bloxstrap.Models.APIs
+namespace Lovestrap.Models.APIs
 {
     public class IPInfoResponse
     {

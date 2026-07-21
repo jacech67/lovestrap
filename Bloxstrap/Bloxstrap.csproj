@@ -6,10 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>True</UseWindowsForms>
-    <!-- Lovestrap rebrand: output is Lovestrap.exe, but the internal RootNamespace
-         stays "Bloxstrap" so the existing namespaces/XAML/resources keep resolving. -->
+    <!-- Lovestrap rebrand: output assembly and internal root namespace are both Lovestrap. -->
     <AssemblyName>Lovestrap</AssemblyName>
-    <RootNamespace>Bloxstrap</RootNamespace>
+    <RootNamespace>Lovestrap</RootNamespace>
     <Product>Lovestrap</Product>
     <AssemblyTitle>Lovestrap</AssemblyTitle>
     <Company>Lovestrap</Company>
@@ -79,7 +78,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Include="Bloxstrap.Models.Attributes.BuildMetadataAttribute">
+    <AssemblyAttribute Include="Lovestrap.Models.Attributes.BuildMetadataAttribute">
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("s"))Z</_Parameter1>
       <_Parameter2>$(COMPUTERNAME)\$(USERNAME)</_Parameter2>
       <_Parameter3>$(CommitHash)</_Parameter3>

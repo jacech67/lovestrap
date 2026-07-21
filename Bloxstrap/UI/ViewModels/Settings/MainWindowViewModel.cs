@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Bloxstrap.UI.Elements.About;
+using Lovestrap.UI.Elements.About;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Bloxstrap.UI.ViewModels.Settings
+namespace Lovestrap.UI.ViewModels.Settings
 {
     public class MainWindowViewModel : NotifyPropertyChangedViewModel
     {

@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 
-using Bloxstrap.UI.ViewModels.About;
+using Lovestrap.UI.ViewModels.About;
 
-namespace Bloxstrap.UI.Elements.About.Pages
+namespace Lovestrap.UI.Elements.About.Pages
 {
     /// <summary>
     /// Interaction logic for SupportersPage.xaml

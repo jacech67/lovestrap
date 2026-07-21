@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
-namespace Bloxstrap.Extensions
+namespace Lovestrap.Extensions
 {
     public static class IconEx
     {

@@ -1,9 +1,9 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 
-using Bloxstrap.Resources;
+using Lovestrap.Resources;
 
-namespace Bloxstrap.UI.ViewModels.Dialogs
+namespace Lovestrap.UI.ViewModels.Dialogs
 {
     public class UninstallerViewModel
     {

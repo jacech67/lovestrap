@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using Bloxstrap.Resources;
+using Lovestrap.Resources;
 
-namespace Bloxstrap.Utility
+namespace Lovestrap.Utility
 {
     internal static class Shortcut
     {

@@ -5,7 +5,7 @@ using Wpf.Ui.Controls;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
 
-namespace Bloxstrap.UI.Elements.Base
+namespace Lovestrap.UI.Elements.Base
 {
     public abstract class WpfUiWindow : UiWindow
     {
