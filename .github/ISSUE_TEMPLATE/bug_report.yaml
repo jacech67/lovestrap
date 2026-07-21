@@ -5,12 +5,12 @@ body:
     attributes:
       value: |
         > [!IMPORTANT]
-        > Bloxstrap isn't actively maintained anymore. We might not get to your report unless it may be important (like if it's about a feature breaking). Sorry about that.
+        > Lovestrap isn't actively maintained anymore. We might not get to your report unless it may be important (like if it's about a feature breaking). Sorry about that.
         > If your problem keeps happening, it can typically be fixed by [reinstalling](https://bloxstraplabs.com/wiki/help/uninstalling-bloxstrap/).
         ### **Instructions**
         - Before you open this report, please [check the Wiki first](https://bloxstraplabs.com/wiki/help). Most common problems will be addressed here.
         - Also, don't open a report if it's in the [currently known issues](https://github.com/bloxstraplabs/bloxstrap/issues/5779). Common problems will be mentioned here too.
-        - Make sure you are using the [latest version of Bloxstrap](https://github.com/bloxstraplabs/bloxstrap/releases/latest). Your report won't be valid if you aren't.
+        - Make sure you are using the [latest version of Lovestrap](https://github.com/bloxstraplabs/bloxstrap/releases/latest). Your report won't be valid if you aren't.
         - If you're finding that some feature is missing, it's probably because of a recent update. Check the [latest version's release notes](https://github.com/bloxstraplabs/bloxstrap/releases/latest).
         - Your report will be closed if it's lazily made and has too little detail.
   - type: checkboxes
@@ -20,13 +20,13 @@ body:
       options:
         - label: I have read the instructions, and I didn't find a solution in any of the links above.
           required: true
-        - label: I am using the latest version of Bloxstrap.
+        - label: I am using the latest version of Lovestrap.
           required: true
   - type: input
     id: version
     attributes:
-      label: Bloxstrap Version
-      description: "What version of Bloxstrap are you using? Find it in the 'About' section of the Settings"
+      label: Lovestrap Version
+      description: "What version of Lovestrap are you using? Find it in the 'About' section of the Settings"
       placeholder: "v1.0.0 (for example)"
     validations:
       required: true
@@ -50,7 +50,7 @@ body:
   - type: textarea
     id: log
     attributes:
-      label: Bloxstrap Log
-      description: If you're getting a 'Bloxstrap Exception' error, upload your log file here. Open it, then select all (Ctrl+A), then copy and paste here. Otherwise, leave it empty.
+      label: Lovestrap Log
+      description: If you're getting a 'Lovestrap Exception' error, upload your log file here. Open it, then select all (Ctrl+A), then copy and paste here. Otherwise, leave it empty.
       value: "N/A"
       render: text
