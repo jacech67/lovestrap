@@ -81,15 +81,25 @@
 
         <controls:OptionControl
             Header="Performance Optimizer"
-            Description="Maximum FPS preset: cap 999, minimum textures/AA/grass/shadows, reduced UI motion, gray sky, AboveNormal process priority, and no Lovestrap watcher or integrations while playing. Global graphics quality, FRM, render distance and every mesh/LOD distance remain untouched.">
+            Description="Smooth FPS preset: minimum textures/AA/grass/shadows, reduced UI motion, gray sky, normal process priority, and no Lovestrap watcher or integrations while playing. Global graphics quality, FRM, render distance and every mesh/LOD distance remain untouched.">
             <ui:ToggleSwitch IsChecked="{Binding PerformanceOptimizer, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl
+            Header="Optimizer FPS cap"
+            Description="240 is the stable default. Try 360 or 480 only if your PC can hold it consistently; 999 is experimental and may feel delayed or stuttery.">
+            <ComboBox
+                Width="140"
+                Padding="10,5,10,5"
+                ItemsSource="{Binding PerformanceOptimizerFrameCaps, Mode=OneTime}"
+                SelectedItem="{Binding SelectedPerformanceOptimizerFrameCap, Mode=TwoWay}" />
         </controls:OptionControl>
 
         <ui:InfoBar
             Margin="0,8,0,4"
             Padding="10"
             Title="FPS and ping expectations"
-            Message="400+ FPS depends on your CPU, GPU and the game and cannot be guaranteed. This preset can reduce frame-time and local input delay, but it cannot lower internet/server ping. Previous settings are restored when switched off. Applies on the next launch without closing Roblox."
+            Message="240 FPS is used by default for stable frame pacing. 400+ FPS depends on your CPU, GPU and the game and cannot be guaranteed. Extremely high caps can increase input/network delay when hardware is saturated. Previous settings are restored when switched off. Applies on the next launch without closing Roblox."
             Severity="Informational"
             IsOpen="True"
             IsClosable="False" />

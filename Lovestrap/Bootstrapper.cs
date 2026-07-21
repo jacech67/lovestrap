@@ -652,19 +652,6 @@ namespace Lovestrap
             {
                 using var process = Process.Start(startInfo)!;
                 _appPid = process.Id;
-
-                if (App.Settings.Prop.PerformanceOptimizer)
-                {
-                    try
-                    {
-                        process.PriorityClass = ProcessPriorityClass.AboveNormal;
-                        App.Logger.WriteLine(LOG_IDENT, "Performance Optimizer set Roblox priority to AboveNormal");
-                    }
-                    catch (Exception ex)
-                    {
-                        App.Logger.WriteException(LOG_IDENT, ex);
-                    }
-                }
             }
             catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
             {

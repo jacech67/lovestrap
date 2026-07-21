@@ -24,6 +24,7 @@ namespace Lovestrap.Models.Persistable
         public Lovestrap.Enums.FlagPresets.TextureMeshMode TextureMeshMode { get; set; } = Lovestrap.Enums.FlagPresets.TextureMeshMode.Normal;
         public bool RtxMode { get; set; } = false;
         public bool PerformanceOptimizer { get; set; } = false;
+        public int PerformanceOptimizerFrameCap { get; set; } = 240;
         public bool? PerformanceOptimizerPreviousRtxMode { get; set; } = null;
         public Dictionary<string, string?>? PerformanceOptimizerPreviousFastFlags { get; set; } = null;
         public string? PerformanceOptimizerPreviousFramerateCap { get; set; } = null;

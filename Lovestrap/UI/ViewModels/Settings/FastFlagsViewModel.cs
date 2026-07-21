@@ -146,7 +146,7 @@ namespace Lovestrap.UI.ViewModels.Settings
                     App.Settings.Prop.RtxMode = false;
                     App.Settings.Prop.PerformanceOptimizer = true;
                     App.FastFlags.SetPerformanceOptimizer(true);
-                    RobloxGlobalSettings.SetProperty("int", "FramerateCap", "999");
+                    RobloxGlobalSettings.SetProperty("int", "FramerateCap", SelectedPerformanceOptimizerFrameCap.ToString());
                     RobloxGlobalSettings.SetProperty("bool", "ReducedMotion", "true");
                 }
                 else
@@ -169,6 +169,25 @@ namespace Lovestrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(PerformanceOptimizer));
                 OnPropertyChanged(nameof(RtxMode));
                 NotifyRenderingPresetChanged();
+            }
+        }
+
+        public IReadOnlyList<int> PerformanceOptimizerFrameCaps { get; } = new[] { 240, 360, 480, 999 };
+
+        public int SelectedPerformanceOptimizerFrameCap
+        {
+            get => PerformanceOptimizerFrameCaps.Contains(App.Settings.Prop.PerformanceOptimizerFrameCap)
+                ? App.Settings.Prop.PerformanceOptimizerFrameCap
+                : 240;
+            set
+            {
+                int frameCap = PerformanceOptimizerFrameCaps.Contains(value) ? value : 240;
+                App.Settings.Prop.PerformanceOptimizerFrameCap = frameCap;
+
+                if (App.Settings.Prop.PerformanceOptimizer)
+                    RobloxGlobalSettings.SetProperty("int", "FramerateCap", frameCap.ToString());
+
+                OnPropertyChanged(nameof(SelectedPerformanceOptimizerFrameCap));
             }
         }
 

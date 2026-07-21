@@ -105,6 +105,7 @@ if (!defaultSettings.RobloxUpgradesEnabled ||
     defaultSettings.UseStaticRobloxVersionDirectory ||
     defaultSettings.CloseRobloxCrashHandler ||
     defaultSettings.PerformanceOptimizer ||
+    defaultSettings.PerformanceOptimizerFrameCap != 240 ||
     defaultSettings.RobloxChannel != "production")
     throw new InvalidOperationException("Roblox deployment settings do not have safe defaults");
 

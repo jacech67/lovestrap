@@ -654,6 +654,18 @@ namespace Lovestrap
                     App.FastFlags.SetPerformanceOptimizer(true);
                 }
 
+                // 1.6 inherited the original uncapped 999 FPS target, which can saturate the
+                // render pipeline and cause poor frame pacing. Move enabled profiles to the
+                // stable 240 FPS default when upgrading to 1.7.
+                if (parsedExistingVersion is not null &&
+                    parsedExistingVersion.Major == 1 &&
+                    Utilities.CompareVersions(existingVer, "1.7") == VersionComparison.LessThan &&
+                    App.Settings.Prop.PerformanceOptimizer)
+                {
+                    App.Settings.Prop.PerformanceOptimizerFrameCap = 240;
+                    RobloxGlobalSettings.SetProperty("int", "FramerateCap", "240");
+                }
+
                 App.Settings.Save();
                 App.FastFlags.Save();
                 App.State.Save();
