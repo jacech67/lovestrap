@@ -19,7 +19,8 @@ namespace Lovestrap.UI.ViewModels.Settings
 
         public ICommand OpenFastFlagEditorCommand => new RelayCommand(OpenFastFlagEditor);
 
-        public Visibility CanShowFastFlagEditor => App.IsStudioInstalled ? Visibility.Visible : Visibility.Collapsed;
+        // Lovestrap: always expose the FastFlag editor (upstream hid it unless Roblox Studio was installed)
+        public Visibility CanShowFastFlagEditor => Visibility.Visible;
 
         public bool UseFastFlagManager
         {
