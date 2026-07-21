@@ -534,6 +534,12 @@ namespace Lovestrap
                 return false;
             }
 
+            if (App.Settings.Prop.PerformanceOptimizer)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Not eligible: Performance Optimizer prevents background work during play");
+                return false;
+            }
+
             if (!App.Settings.Prop.BackgroundUpdatesEnabled)
             {
                 App.Logger.WriteLine(LOG_IDENT, "Not eligible: Background updates disabled");
@@ -646,6 +652,19 @@ namespace Lovestrap
             {
                 using var process = Process.Start(startInfo)!;
                 _appPid = process.Id;
+
+                if (App.Settings.Prop.PerformanceOptimizer)
+                {
+                    try
+                    {
+                        process.PriorityClass = ProcessPriorityClass.AboveNormal;
+                        App.Logger.WriteLine(LOG_IDENT, "Performance Optimizer set Roblox priority to AboveNormal");
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteException(LOG_IDENT, ex);
+                    }
+                }
             }
             catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
             {
@@ -674,7 +693,8 @@ namespace Lovestrap
                 App.Logger.WriteLine(LOG_IDENT, $"Got log file as {logFileName}");
             }
 
-            if (_launchMode == LaunchMode.Player && App.Settings.Prop.CloseRobloxCrashHandler)
+            if (_launchMode == LaunchMode.Player &&
+                (App.Settings.Prop.CloseRobloxCrashHandler || App.Settings.Prop.PerformanceOptimizer))
                 CloseCrashHandlerProcesses();
 
             _mutex?.ReleaseAsync();
@@ -684,8 +704,13 @@ namespace Lovestrap
 
             var autoclosePids = new List<int>();
 
+            // Keep auxiliary processes out of the way while maximum performance is requested.
+            IEnumerable<CustomIntegration> integrations = App.Settings.Prop.PerformanceOptimizer
+                ? Enumerable.Empty<CustomIntegration>()
+                : App.Settings.Prop.CustomIntegrations;
+
             // launch custom integrations now
-            foreach (var integration in App.Settings.Prop.CustomIntegrations)
+            foreach (var integration in integrations)
             {
                 App.Logger.WriteLine(LOG_IDENT, $"Launching custom integration '{integration.Name}' ({integration.Location} {integration.LaunchArgs} - autoclose is {integration.AutoClose})");
 
@@ -713,7 +738,10 @@ namespace Lovestrap
                     autoclosePids.Add(pid);
             }
 
-            if (App.Settings.Prop.EnableActivityTracking || App.LaunchSettings.TestModeFlag.Active || autoclosePids.Any())
+            bool watcherRequired = !App.Settings.Prop.PerformanceOptimizer &&
+                (App.Settings.Prop.EnableActivityTracking || App.LaunchSettings.TestModeFlag.Active || autoclosePids.Any());
+
+            if (watcherRequired)
             {
                 using var ipl = new InterProcessLock("Watcher", TimeSpan.FromSeconds(5));
 

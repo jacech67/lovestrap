@@ -141,6 +141,21 @@ namespace Lovestrap
             Save(doc);
         }
 
+        public static void RemoveProperty(string name)
+        {
+            var doc = Load();
+            var props = Properties(doc);
+            if (props is null)
+                return;
+
+            var node = props.Elements().FirstOrDefault(x => (string?)x.Attribute("name") == name);
+            if (node is null)
+                return;
+
+            node.Remove();
+            Save(doc);
+        }
+
         /// <summary>Sets a Vector2 property (used for mouse sensitivity).</summary>
         public static void SetVector2(string name, float value)
         {

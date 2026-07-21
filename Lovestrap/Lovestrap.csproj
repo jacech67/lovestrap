@@ -13,8 +13,8 @@
     <AssemblyTitle>Lovestrap</AssemblyTitle>
     <Company>Lovestrap</Company>
     <ApplicationIcon>Lovestrap.ico</ApplicationIcon>
-    <Version>2.13.0</Version>
-    <FileVersion>2.13.0</FileVersion>
+    <Version>2.14.0</Version>
+    <FileVersion>2.14.0</FileVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>

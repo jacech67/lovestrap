@@ -33,7 +33,11 @@ namespace Lovestrap.UI.ViewModels.Settings
         public MSAAMode SelectedMSAALevel
         {
             get => MSAALevels.FirstOrDefault(x => x.Value == App.FastFlags.GetPreset("Rendering.MSAA")).Key;
-            set => App.FastFlags.SetPreset("Rendering.MSAA", MSAALevels[value]);
+            set
+            {
+                DisablePerformanceOptimizerForManualChange();
+                App.FastFlags.SetPreset("Rendering.MSAA", MSAALevels[value]);
+            }
         }
 
         public bool FixDisplayScaling
@@ -49,6 +53,8 @@ namespace Lovestrap.UI.ViewModels.Settings
             get => TextureQualities.Where(x => x.Value == App.FastFlags.GetPreset("Rendering.TextureQuality.Level")).FirstOrDefault().Key;
             set
             {
+                DisablePerformanceOptimizerForManualChange();
+
                 if (value == TextureQuality.Default)
                 {
                     App.FastFlags.SetPreset("Rendering.TextureQuality", null);
@@ -81,6 +87,8 @@ namespace Lovestrap.UI.ViewModels.Settings
             get => App.Settings.Prop.TextureMeshMode;
             set
             {
+                DisablePerformanceOptimizerForManualChange();
+
                 if (value != TextureMeshMode.Normal && App.Settings.Prop.RtxMode)
                 {
                     App.Settings.Prop.RtxMode = false;
@@ -100,6 +108,9 @@ namespace Lovestrap.UI.ViewModels.Settings
             get => App.Settings.Prop.RtxMode;
             set
             {
+                if (value)
+                    DisablePerformanceOptimizerForManualChange();
+
                 App.Settings.Prop.RtxMode = value;
 
                 if (value)
@@ -112,6 +123,72 @@ namespace Lovestrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(RtxMode));
                 OnPropertyChanged(nameof(SelectedTextureMeshMode));
                 NotifyRenderingPresetChanged();
+            }
+        }
+
+        public bool PerformanceOptimizer
+        {
+            get => App.Settings.Prop.PerformanceOptimizer;
+            set
+            {
+                if (value == App.Settings.Prop.PerformanceOptimizer)
+                    return;
+
+                if (value)
+                {
+                    App.Settings.Prop.PerformanceOptimizerPreviousRtxMode = App.Settings.Prop.RtxMode;
+                    App.Settings.Prop.PerformanceOptimizerPreviousFastFlags = App.FastFlags.CapturePerformanceOptimizerSettings();
+                    App.Settings.Prop.PerformanceOptimizerPreviousFramerateCap = RobloxGlobalSettings.GetProperty("FramerateCap");
+                    App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality = null;
+                    App.Settings.Prop.PerformanceOptimizerPreviousReducedMotion = RobloxGlobalSettings.GetProperty("ReducedMotion");
+
+                    // Performance and maximum-quality mode are mutually exclusive.
+                    App.Settings.Prop.RtxMode = false;
+                    App.Settings.Prop.PerformanceOptimizer = true;
+                    App.FastFlags.SetPerformanceOptimizer(true);
+                    RobloxGlobalSettings.SetProperty("int", "FramerateCap", "999");
+                    RobloxGlobalSettings.SetProperty("bool", "ReducedMotion", "true");
+                }
+                else
+                {
+                    App.FastFlags.SetPerformanceOptimizer(false, App.Settings.Prop.PerformanceOptimizerPreviousFastFlags);
+                    RestoreGlobalProperty("int", "FramerateCap", App.Settings.Prop.PerformanceOptimizerPreviousFramerateCap);
+                    if (App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality is not null)
+                        RestoreGlobalProperty("token", "SavedQualityLevel", App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality);
+                    RestoreGlobalProperty("bool", "ReducedMotion", App.Settings.Prop.PerformanceOptimizerPreviousReducedMotion);
+
+                    App.Settings.Prop.PerformanceOptimizer = false;
+                    App.Settings.Prop.RtxMode = App.Settings.Prop.PerformanceOptimizerPreviousRtxMode ?? false;
+                    App.Settings.Prop.PerformanceOptimizerPreviousRtxMode = null;
+                    App.Settings.Prop.PerformanceOptimizerPreviousFastFlags = null;
+                    App.Settings.Prop.PerformanceOptimizerPreviousFramerateCap = null;
+                    App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality = null;
+                    App.Settings.Prop.PerformanceOptimizerPreviousReducedMotion = null;
+                }
+
+                OnPropertyChanged(nameof(PerformanceOptimizer));
+                OnPropertyChanged(nameof(RtxMode));
+                NotifyRenderingPresetChanged();
+            }
+        }
+
+        private static void RestoreGlobalProperty(string elementType, string name, string? previousValue)
+        {
+            if (previousValue is null)
+                RobloxGlobalSettings.RemoveProperty(name);
+            else
+                RobloxGlobalSettings.SetProperty(elementType, name, previousValue);
+        }
+
+        private void DisablePerformanceOptimizerForManualChange()
+        {
+            if (App.Settings.Prop.PerformanceOptimizer)
+            {
+                PerformanceOptimizer = false;
+
+                // The manual value the user is about to choose supersedes a restored RTX preset.
+                App.Settings.Prop.RtxMode = false;
+                OnPropertyChanged(nameof(RtxMode));
             }
         }
 
@@ -151,6 +228,7 @@ namespace Lovestrap.UI.ViewModels.Settings
             get => App.FastFlags.GetPreset("Rendering.FRMQuality") is not null;
             set
             {
+                DisablePerformanceOptimizerForManualChange();
                 App.FastFlags.SetValue(FastFlagManager.PresetFlags["Rendering.FRMQuality"], value ? FRMQualityLevel : (object?)null);
                 OnPropertyChanged(nameof(FRMQualityEnabled));
             }
@@ -165,6 +243,7 @@ namespace Lovestrap.UI.ViewModels.Settings
             }
             set
             {
+                DisablePerformanceOptimizerForManualChange();
                 if (FRMQualityEnabled)
                     App.FastFlags.SetValue(FastFlagManager.PresetFlags["Rendering.FRMQuality"], Math.Clamp(value, 1, 21));
             }
@@ -189,13 +268,21 @@ namespace Lovestrap.UI.ViewModels.Settings
         public bool PauseVoxelizer
         {
             get => App.FastFlags.GetPreset("Rendering.PauseVoxelizer") == "True";
-            set => App.FastFlags.SetPreset("Rendering.PauseVoxelizer", value ? "True" : null);
+            set
+            {
+                DisablePerformanceOptimizerForManualChange();
+                App.FastFlags.SetPreset("Rendering.PauseVoxelizer", value ? "True" : null);
+            }
         }
 
         public bool DisableGrass
         {
             get => App.FastFlags.GetPreset("Rendering.DisableGrass.MaxDistance") == "0";
-            set => App.FastFlags.SetPreset("Rendering.DisableGrass", value ? "0" : null);
+            set
+            {
+                DisablePerformanceOptimizerForManualChange();
+                App.FastFlags.SetPreset("Rendering.DisableGrass", value ? "0" : null);
+            }
         }
 
         public bool ResetConfiguration

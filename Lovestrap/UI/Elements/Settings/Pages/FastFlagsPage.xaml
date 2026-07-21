@@ -80,6 +80,21 @@
         <TextBlock Text="Rendering and Graphics" FontSize="16" FontWeight="Medium" Margin="0,20,0,0" />
 
         <controls:OptionControl
+            Header="Performance Optimizer"
+            Description="Maximum FPS preset: cap 999, minimum textures/AA/grass/shadows, reduced UI motion, gray sky, AboveNormal process priority, and no Lovestrap watcher or integrations while playing. Global graphics quality, FRM, render distance and every mesh/LOD distance remain untouched.">
+            <ui:ToggleSwitch IsChecked="{Binding PerformanceOptimizer, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <ui:InfoBar
+            Margin="0,8,0,4"
+            Padding="10"
+            Title="FPS and ping expectations"
+            Message="400+ FPS depends on your CPU, GPU and the game and cannot be guaranteed. This preset can reduce frame-time and local input delay, but it cannot lower internet/server ping. Previous settings are restored when switched off. Applies on the next launch without closing Roblox."
+            Severity="Informational"
+            IsOpen="True"
+            IsClosable="False" />
+
+        <controls:OptionControl
             Header="RTX Mode (maximum quality)"
             Description="Queues Lovestrap's highest-quality Roblox preset for the next launch: full textures and meshes, 4x anti-aliasing, maximum render quality, grass and baked shadows.">
             <ui:ToggleSwitch IsChecked="{Binding RtxMode, Mode=TwoWay}" />

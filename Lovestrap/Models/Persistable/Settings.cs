@@ -23,6 +23,12 @@ namespace Lovestrap.Models.Persistable
         public bool EnableFastFlagInjector { get; set; } = true;
         public Lovestrap.Enums.FlagPresets.TextureMeshMode TextureMeshMode { get; set; } = Lovestrap.Enums.FlagPresets.TextureMeshMode.Normal;
         public bool RtxMode { get; set; } = false;
+        public bool PerformanceOptimizer { get; set; } = false;
+        public bool? PerformanceOptimizerPreviousRtxMode { get; set; } = null;
+        public Dictionary<string, string?>? PerformanceOptimizerPreviousFastFlags { get; set; } = null;
+        public string? PerformanceOptimizerPreviousFramerateCap { get; set; } = null;
+        public string? PerformanceOptimizerPreviousGraphicsQuality { get; set; } = null;
+        public string? PerformanceOptimizerPreviousReducedMotion { get; set; } = null;
         public bool WPFSoftwareRender { get; set; } = false;
         public bool EnableAnalytics { get; set; } = true;
         public bool BackgroundUpdatesEnabled { get; set; } = false;

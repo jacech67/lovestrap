@@ -606,6 +606,54 @@ namespace Lovestrap
                     App.State.Prop.ForceReinstall = true;
                 }
 
+                // Version 1.5 expands Performance Optimizer with additional officially
+                // supported flags. Preserve values for the newly owned controls before
+                // normalising an already-enabled 1.4 profile.
+                if (parsedExistingVersion is not null &&
+                    parsedExistingVersion.Major == 1 &&
+                    Utilities.CompareVersions(existingVer, "1.5") == VersionComparison.LessThan &&
+                    App.Settings.Prop.PerformanceOptimizer)
+                {
+                    Dictionary<string, string?> previousValues = App.FastFlags.CapturePerformanceOptimizerSettings();
+
+                    if (App.Settings.Prop.PerformanceOptimizerPreviousFastFlags is not null)
+                    {
+                        foreach (var pair in App.Settings.Prop.PerformanceOptimizerPreviousFastFlags)
+                            previousValues[pair.Key] = pair.Value;
+                    }
+
+                    App.Settings.Prop.PerformanceOptimizerPreviousFastFlags = previousValues;
+                    App.Settings.Prop.PerformanceOptimizerPreviousReducedMotion = RobloxGlobalSettings.GetProperty("ReducedMotion");
+                    App.FastFlags.SetPerformanceOptimizer(true);
+                    RobloxGlobalSettings.SetProperty("bool", "ReducedMotion", "true");
+                }
+
+                // 1.5 lowered FRM and SavedQualityLevel, which can indirectly shorten draw
+                // distance. Restore both when upgrading an enabled profile to 1.6; the new
+                // optimizer deliberately never owns these controls.
+                if (parsedExistingVersion is not null &&
+                    parsedExistingVersion.Major == 1 &&
+                    Utilities.CompareVersions(existingVer, "1.6") == VersionComparison.LessThan &&
+                    App.Settings.Prop.PerformanceOptimizer)
+                {
+                    string frmFlag = FastFlagManager.PresetFlags["Rendering.FRMQuality"];
+
+                    if (App.Settings.Prop.PerformanceOptimizerPreviousFastFlags is not null &&
+                        App.Settings.Prop.PerformanceOptimizerPreviousFastFlags.TryGetValue(frmFlag, out string? previousFrm))
+                    {
+                        App.FastFlags.SetValue(frmFlag, previousFrm);
+                        App.Settings.Prop.PerformanceOptimizerPreviousFastFlags.Remove(frmFlag);
+                    }
+
+                    if (App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality is null)
+                        RobloxGlobalSettings.RemoveProperty("SavedQualityLevel");
+                    else
+                        RobloxGlobalSettings.SetProperty("token", "SavedQualityLevel", App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality);
+
+                    App.Settings.Prop.PerformanceOptimizerPreviousGraphicsQuality = null;
+                    App.FastFlags.SetPerformanceOptimizer(true);
+                }
+
                 App.Settings.Save();
                 App.FastFlags.Save();
                 App.State.Save();

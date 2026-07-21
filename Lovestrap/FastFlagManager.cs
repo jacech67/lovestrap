@@ -42,7 +42,8 @@ namespace Lovestrap
             { "Rendering.GraySky", "FFlagDebugSkyGray" },
             { "Rendering.PauseVoxelizer", "DFFlagDebugPauseVoxelizer" },
             { "Rendering.DisableGrass.MaxDistance", "FIntFRMMaxGrassDistance" },
-            { "Rendering.DisableGrass.Detail", "FIntRenderGrassDetailStuds" },
+            { "Rendering.DisableGrass.MinDistance", "FIntFRMMinGrassDistance" },
+            { "Rendering.GrassMovement", "FIntGrassMovementReducedMotionFactor" },
         };
 
         // ---- Mesh detail (0-100 quality: 100 = full detail, 0 = meshes drop to lowest LOD / disappear) ----
@@ -65,8 +66,55 @@ namespace Lovestrap
             "FIntDebugTextureManagerSkipMips",
             "DFIntPerformanceControlTextureQualityBestUtility",
             "DFIntTextureCompositorActiveJobs",
-            "FIntTerrainArraySliceSize"
+            "FIntTerrainArraySliceSize",
+            "FIntRenderGrassDetailStuds"
         };
+
+        // Performance Optimizer deliberately excludes MeshDetail/CSG LOD and every distance
+        // flag other than terrain grass, so it never changes world or mesh render distance.
+        private static readonly string[] PerformanceOptimizerFlags =
+        {
+            "Rendering.MSAA",
+            "Rendering.ManualFullscreen",
+            "Rendering.DisableScaling",
+            "Rendering.TextureQuality.OverrideEnabled",
+            "Rendering.TextureQuality.Level",
+            "Rendering.GraySky",
+            "Rendering.PauseVoxelizer",
+            "Rendering.DisableGrass.MaxDistance",
+            "Rendering.DisableGrass.MinDistance",
+            "Rendering.GrassMovement"
+        };
+
+        public Dictionary<string, string?> CapturePerformanceOptimizerSettings() =>
+            PerformanceOptimizerFlags.ToDictionary(x => PresetFlags[x], x => GetPreset(x));
+
+        public void SetPerformanceOptimizer(bool enabled, IReadOnlyDictionary<string, string?>? previousValues = null)
+        {
+            if (!enabled)
+            {
+                foreach (string presetName in PerformanceOptimizerFlags)
+                {
+                    string flagName = PresetFlags[presetName];
+                    string? previousValue = null;
+                    previousValues?.TryGetValue(flagName, out previousValue);
+                    SetValue(flagName, previousValue);
+                }
+
+                return;
+            }
+
+            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], "True");
+            SetValue(PresetFlags["Rendering.TextureQuality.Level"], "0");
+            SetValue(PresetFlags["Rendering.MSAA"], "1");
+            SetValue(PresetFlags["Rendering.ManualFullscreen"], "False");
+            SetValue(PresetFlags["Rendering.DisableScaling"], null);
+            SetValue(PresetFlags["Rendering.GraySky"], "True");
+            SetValue(PresetFlags["Rendering.PauseVoxelizer"], "True");
+            SetValue(PresetFlags["Rendering.DisableGrass.MaxDistance"], "0");
+            SetValue(PresetFlags["Rendering.DisableGrass.MinDistance"], "0");
+            SetValue(PresetFlags["Rendering.GrassMovement"], "0");
+        }
 
         public TextureMeshMode GetTextureMeshMode()
         {
