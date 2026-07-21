@@ -26,7 +26,7 @@
             Header="Graphics Quality"
             Description="Set the graphics quality of your game.">
             <StackPanel Orientation="Horizontal">
-                <Slider Width="220" VerticalAlignment="Center" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding GraphicsQuality, Mode=TwoWay}" />
+                <Slider Width="220" VerticalAlignment="Center" Minimum="1" Maximum="21" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding GraphicsQuality, Mode=TwoWay}" />
                 <Border Margin="12,0,0,0" MinWidth="28" Padding="6,2" CornerRadius="4" Background="{DynamicResource ControlFillColorDefaultBrush}">
                     <TextBlock HorizontalAlignment="Center" Text="{Binding GraphicsQuality, Mode=OneWay}" />
                 </Border>
