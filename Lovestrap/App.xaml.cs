@@ -20,10 +20,10 @@ namespace Lovestrap
 #endif
         public const string ProjectOwner = "Lovestrap";
         // Auto-updater pulls releases from this repo. Change the owner if your GitHub username differs.
-        public const string ProjectRepository = "jacegirton/lovestrap";
-        public const string ProjectDownloadLink = "https://github.com/jacegirton/lovestrap/releases/latest";
-        public const string ProjectHelpLink = "https://github.com/jacegirton/lovestrap";
-        public const string ProjectSupportLink = "https://github.com/jacegirton/lovestrap/issues/new";
+        public const string ProjectRepository = "jacech67/lovestrap";
+        public const string ProjectDownloadLink = "https://github.com/jacech67/lovestrap/releases/latest";
+        public const string ProjectHelpLink = "https://github.com/jacech67/lovestrap";
+        public const string ProjectSupportLink = "https://github.com/jacech67/lovestrap/issues/new";
 
         public const string RobloxPlayerAppName = "RobloxPlayerBeta";
         public const string RobloxStudioAppName = "RobloxStudioBeta";
