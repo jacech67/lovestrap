@@ -25,50 +25,45 @@ namespace Lovestrap
             { "Rendering.TextureQuality.OverrideEnabled", "DFFlagTextureQualityOverrideEnabled" },
             { "Rendering.TextureQuality.Level", "DFIntTextureQualityOverride" },
 
-            // mesh/geometry level-of-detail switching distances (higher = meshes stay detailed further away)
-            { "Rendering.MeshQuality.L12", "DFIntCSGLevelOfDetailSwitchingDistanceL12" },
-            { "Rendering.MeshQuality.L23", "DFIntCSGLevelOfDetailSwitchingDistanceL23" },
-            { "Rendering.MeshQuality.L34", "DFIntCSGLevelOfDetailSwitchingDistanceL34" },
+            // lowest-level helper: forces Roblox to always pick the worst texture mip
+            { "Rendering.MeshQuality.ForceLowTextures", "DFIntPerformanceControlTextureQualityBestScreenSize" },
         };
 
-        // Roblox default LOD switching distances; the scale multiplies these
-        private static readonly Dictionary<string, int> MeshQualityBase = new()
-        {
-            { "Rendering.MeshQuality.L12", 250 },
-            { "Rendering.MeshQuality.L23", 500 },
-            { "Rendering.MeshQuality.L34", 750 },
-        };
+        // 4-point mesh/texture quality, driven through Roblox's texture-quality override:
+        //   3 = Normal | 2 = Pixelated icons | 1 = Pixelated meshes + icons | 0 = No mesh textures + pixelated icons
+        // Full (3) is normal; the lower you go, the more pixelated textures become.
+        public const int MeshQualityNormal = 3;
 
-        // scale is a 0-100 slider: 0 = disabled (Roblox default), 50 = stock distances, 100 = 2x detail distance
-        public const int MeshQualityMax = 100;
-
-        public void SetMeshQuality(int scale)
+        public void SetMeshQuality(int level)
         {
-            if (scale <= 0)
+            if (level >= MeshQualityNormal)
             {
-                // disabled - remove the override flags entirely
-                foreach (var pair in MeshQualityBase)
-                    SetValue(PresetFlags[pair.Key], null);
-
+                // Normal - clear every quality override
+                SetPreset("Rendering.TextureQuality", null);
+                SetValue(PresetFlags["Rendering.MeshQuality.ForceLowTextures"], null);
                 return;
             }
 
-            double multiplier = scale / 50.0;
+            level = Math.Clamp(level, 0, 2);
 
-            foreach (var pair in MeshQualityBase)
-                SetValue(PresetFlags[pair.Key], (int)Math.Round(pair.Value * multiplier));
+            SetValue(PresetFlags["Rendering.TextureQuality.OverrideEnabled"], "True");
+            SetValue(PresetFlags["Rendering.TextureQuality.Level"], level);
+
+            // lowest level: force worst-case texture mips so mesh textures effectively drop out
+            SetValue(PresetFlags["Rendering.MeshQuality.ForceLowTextures"], level == 0 ? 1 : null);
         }
 
         public int GetMeshQuality()
         {
-            string? raw = GetPreset("Rendering.MeshQuality.L12");
+            if (GetPreset("Rendering.TextureQuality.OverrideEnabled") != "True")
+                return MeshQualityNormal;
 
-            if (raw is null || !Int32.TryParse(raw, out int value))
-                return 0;
+            string? raw = GetPreset("Rendering.TextureQuality.Level");
 
-            int scale = (int)Math.Round((double)value / MeshQualityBase["Rendering.MeshQuality.L12"] * 50.0);
+            if (raw is null || !Int32.TryParse(raw, out int level))
+                return MeshQualityNormal;
 
-            return Math.Clamp(scale, 0, MeshQualityMax);
+            return Math.Clamp(level, 0, 2);
         }
 
         public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes => new Dictionary<MSAAMode, string?>
