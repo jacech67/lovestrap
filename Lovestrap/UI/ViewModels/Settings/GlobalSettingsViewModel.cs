@@ -12,26 +12,22 @@ namespace Lovestrap.UI.ViewModels.Settings
         }
 
         // ---- Rendering and Graphics ----
+        // SavedQualityLevel is the user-facing quality level (1-10). Roblox derives
+        // GraphicsQualityLevel (1-21) from it at runtime, so we only write this one.
         public int GraphicsQuality
         {
             get => Int32.TryParse(RobloxGlobalSettings.GetProperty("SavedQualityLevel"), out int v) ? Math.Clamp(v, 1, 10) : 1;
-            set
-            {
-                RobloxGlobalSettings.SetProperty("token", "SavedQualityLevel", value.ToString());
-                RobloxGlobalSettings.SetProperty("int", "GraphicsQualityLevel", value.ToString());
-            }
+            set => RobloxGlobalSettings.SetProperty("token", "SavedQualityLevel", value.ToString());
         }
 
-        // Framerate limit is the DFIntTaskSchedulerTargetFps fast flag
+        // Framerate limit is Roblox's own FramerateCap setting (int) in this file.
         public string FramerateLimit
         {
-            get => App.FastFlags.GetValue("DFIntTaskSchedulerTargetFps") ?? "";
+            get => RobloxGlobalSettings.GetProperty("FramerateCap") ?? "";
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
-                    App.FastFlags.SetValue("DFIntTaskSchedulerTargetFps", null);
-                else if (Int32.TryParse(value, out int v))
-                    App.FastFlags.SetValue("DFIntTaskSchedulerTargetFps", v);
+                if (Int32.TryParse(value, out int v))
+                    RobloxGlobalSettings.SetProperty("int", "FramerateCap", v.ToString());
             }
         }
 
@@ -48,22 +44,39 @@ namespace Lovestrap.UI.ViewModels.Settings
             set => RobloxGlobalSettings.SetProperty("bool", "ReducedMotion", value ? "true" : "false");
         }
 
-        public IReadOnlyList<string> FontSizes { get; } = new[] { "Default", "Large", "Larger", "Largest" };
+        // PreferredTextSize is a numeric token (0 = default, 1/2/3 = progressively larger)
+        public IReadOnlyList<string> FontSizes { get; } = new[] { "Default", "1x", "2x", "3x" };
 
         public string SelectedFontSize
         {
-            get => RobloxGlobalSettings.GetProperty("PreferredTextSize") is string s && FontSizes.Contains(s) ? s : "Default";
-            set => RobloxGlobalSettings.SetProperty("token", "PreferredTextSize", value);
+            get => RobloxGlobalSettings.GetProperty("PreferredTextSize") switch
+            {
+                "1" => "1x",
+                "2" => "2x",
+                "3" => "3x",
+                _ => "Default"
+            };
+            set => RobloxGlobalSettings.SetProperty("token", "PreferredTextSize", value switch
+            {
+                "1x" => "1",
+                "2x" => "2",
+                "3x" => "3",
+                _ => "0"
+            });
         }
 
         // ---- Other ----
+        // Roblox stores a MouseSensitivity float plus first/third-person Vector2s; set all three.
         public string MouseSensitivity
         {
-            get => RobloxGlobalSettings.GetVector2X("MouseSensitivityFirstPerson")?.ToString("0.0#######", CultureInfo.InvariantCulture) ?? "";
+            get => RobloxGlobalSettings.GetProperty("MouseSensitivity")
+                   ?? RobloxGlobalSettings.GetVector2X("MouseSensitivityFirstPerson")?.ToString("0.0#######", CultureInfo.InvariantCulture)
+                   ?? "";
             set
             {
                 if (Single.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out float v))
                 {
+                    RobloxGlobalSettings.SetProperty("float", "MouseSensitivity", v.ToString("0.0#######", CultureInfo.InvariantCulture));
                     RobloxGlobalSettings.SetVector2("MouseSensitivityFirstPerson", v);
                     RobloxGlobalSettings.SetVector2("MouseSensitivityThirdPerson", v);
                 }
