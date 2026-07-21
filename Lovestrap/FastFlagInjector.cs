@@ -16,6 +16,7 @@ namespace Lovestrap
         public static string FilePath => Path.Combine(Paths.Modifications, "ClientSettings", "InjectedFlags.json");
 
         private readonly System.Timers.Timer _timer;
+        private FileSystemWatcher? _watcher;
         private string _lastHash = "";
 
         public FastFlagInjector()
@@ -27,14 +28,46 @@ namespace Lovestrap
         public void Start()
         {
             const string LOG_IDENT = "FastFlagInjector::Start";
-            App.Logger.WriteLine(LOG_IDENT, $"Started, refreshing every {RefreshInterval.TotalMinutes} min from {FilePath}");
+            App.Logger.WriteLine(LOG_IDENT, $"Started, watching {FilePath} (fallback refresh every {RefreshInterval.TotalMinutes} min)");
 
-            // run once immediately, then on the interval
+            // run once immediately, then on the interval as a fallback
             Refresh();
             _timer.Start();
+
+            // real-time: apply the moment the injected-flags file changes
+            try
+            {
+                string dir = Path.GetDirectoryName(FilePath)!;
+                Directory.CreateDirectory(dir);
+
+                _watcher = new FileSystemWatcher(dir, Path.GetFileName(FilePath))
+                {
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName,
+                    EnableRaisingEvents = true
+                };
+
+                FileSystemEventHandler onChange = (_, _) =>
+                {
+                    // brief debounce so we read after the writer finishes flushing
+                    Thread.Sleep(150);
+                    Refresh();
+                };
+
+                _watcher.Changed += onChange;
+                _watcher.Created += onChange;
+                _watcher.Renamed += (_, _) => { Thread.Sleep(150); Refresh(); };
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException(LOG_IDENT, ex);
+            }
         }
 
-        public void Stop() => _timer.Stop();
+        public void Stop()
+        {
+            _timer.Stop();
+            _watcher?.Dispose();
+        }
 
         public void Refresh()
         {
