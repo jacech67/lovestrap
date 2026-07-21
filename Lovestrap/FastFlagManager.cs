@@ -27,6 +27,12 @@ namespace Lovestrap
 
             // lowest-level helper: forces Roblox to always pick the worst texture mip
             { "Rendering.MeshQuality.ForceLowTextures", "DFIntPerformanceControlTextureQualityBestScreenSize" },
+
+            // simple on/off rendering presets
+            { "Rendering.GraySky", "FFlagDebugSkyGray" },
+            { "Rendering.PauseVoxelizer", "DFFlagDebugPauseVoxelizer" },
+            { "Rendering.DisableGrass.MaxDistance", "FIntFRMMaxGrassDistance" },
+            { "Rendering.DisableGrass.Detail", "FIntRenderGrassDetailStuds" },
         };
 
         // 4-point mesh/texture quality, driven through Roblox's texture-quality override:

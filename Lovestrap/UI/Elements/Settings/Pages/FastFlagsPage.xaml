@@ -54,6 +54,24 @@
         </controls:OptionControl>
 
         <controls:OptionControl
+            Header="Gray Sky"
+            Description="Changes the game's sky to a solid gray color. Won't work in games with a custom skybox added by the developer.">
+            <ui:ToggleSwitch IsChecked="{Binding GraySky, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl
+            Header="Disable Grass"
+            Description="Removes terrain grass decoration for better performance.">
+            <ui:ToggleSwitch IsChecked="{Binding DisableGrass, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl
+            Header="Pause Voxelizer"
+            Description="Disables baked shadows to improve performance, but may cause lighting issues in some games.">
+            <ui:ToggleSwitch IsChecked="{Binding PauseVoxelizer, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl
             Margin="0,24,0,0"
             Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
             <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />

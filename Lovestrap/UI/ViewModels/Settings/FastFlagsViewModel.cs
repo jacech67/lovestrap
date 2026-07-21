@@ -70,6 +70,24 @@ namespace Lovestrap.UI.ViewModels.Settings
             }
         }
 
+        public bool GraySky
+        {
+            get => App.FastFlags.GetPreset("Rendering.GraySky") == "True";
+            set => App.FastFlags.SetPreset("Rendering.GraySky", value ? "True" : null);
+        }
+
+        public bool PauseVoxelizer
+        {
+            get => App.FastFlags.GetPreset("Rendering.PauseVoxelizer") == "True";
+            set => App.FastFlags.SetPreset("Rendering.PauseVoxelizer", value ? "True" : null);
+        }
+
+        public bool DisableGrass
+        {
+            get => App.FastFlags.GetPreset("Rendering.DisableGrass.MaxDistance") == "0";
+            set => App.FastFlags.SetPreset("Rendering.DisableGrass", value ? "0" : null);
+        }
+
         public string MeshQualityLabel => App.FastFlags.GetMeshQuality() switch
         {
             0 => "No mesh textures + pixelated icons",
