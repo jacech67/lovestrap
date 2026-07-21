@@ -2,7 +2,7 @@
 > The only official places to download Lovestrap are this GitHub repository and [discord.gg/soarr](discord.gg/soarr). Any other websites offering downloads or claiming to be us are not owned by us.
 
 > [!IMPORTANT]
-> Lovestrap is not under active development anymore. Any issues or pull requests opened may take a while to get a response.
+> Lovestrap is under active development. Please make a ticket in the discord if you have any issues!
 
 <p align="center">
     <img src="Images/Lovestrap-full-dark.png#gh-dark-mode-only" width="200">
@@ -33,7 +33,7 @@ Lovestrap is only supported for PCs running Windows.
 
 **Q: Does Noah have cancer?**
 
-**A:** Yes.
+**A:** Yes. [Donations](https://www.roblox.com/communities/947998528/JJ-Archive#!/store) 50% of proceeds are DevEx'd and put towards Noah's cancer treatment!
 
 **Q: Can using this get me banned?**
 
