@@ -1,6 +1,6 @@
 import re, glob
 
-directory = input("Enter project path (the one containing Bloxstrap.csproj): ")
+directory = input("Enter project path (the one containing Lovestrap.csproj): ")
 
 existing = []
 found = []
