@@ -766,12 +766,10 @@ namespace Lovestrap
         {
             const string LOG_IDENT = "Bootstrapper::CheckForUpdates";
 
-            // Lovestrap fork: self-update is disabled. The upstream release feed
-            // (App.ProjectRepository) points at Lovestrap, so auto-updating would
-            // replace this rebranded build with stock Lovestrap. Skip entirely.
-            App.Logger.WriteLine(LOG_IDENT, "Self-update is disabled in this build");
-            return false;
-#pragma warning disable CS0162 // unreachable code left intentionally for upstream diffs
+            // Lovestrap fork: self-update pulls from App.ProjectRepository (the fork's own
+            // GitHub releases). If that repo has no releases yet, GetLatestRelease returns
+            // null and this safely no-ops.
+
             // don't update if there's another instance running (likely running in the background)
             // i don't like this, but there isn't much better way of doing it /shrug
             if (Process.GetProcessesByName(App.ProjectName).Length > 1)
