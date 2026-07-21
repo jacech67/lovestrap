@@ -29,7 +29,7 @@ jobs:
       run: copy .\Lovestrap\bin\Release\net6.0-windows\win-x64\publish\Lovestrap.exe Lovestrap.exe
 
     - name: Publish release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       with:
         tag_name: ${{ github.ref_name }}
         name: Lovestrap ${{ github.ref_name }}
