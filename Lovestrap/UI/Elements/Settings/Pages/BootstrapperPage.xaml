@@ -1,0 +1,86 @@
+﻿<ui:UiPage x:Class="Lovestrap.UI.Elements.Settings.Pages.BehaviourPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:local="clr-namespace:Lovestrap.UI.Elements.Settings.Pages"
+      xmlns:controls="clr-namespace:Lovestrap.UI.Elements.Controls"
+      xmlns:models="clr-namespace:Lovestrap.UI.ViewModels.Settings"
+      xmlns:resources="clr-namespace:Lovestrap.Resources"
+      d:DataContext="{d:DesignInstance Type=models:BehaviourViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="BehaviourPage"
+      Scrollable="True">
+
+    <StackPanel Margin="0,0,14,14">
+        <TextBlock Margin="0,0,0,8" Text="{x:Static resources:Strings.Menu_Behaviour_Description}" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+
+        <TextBlock Text="Roblox deployment" FontSize="20" FontWeight="Medium" Margin="0,8,0,4" />
+
+        <controls:OptionControl
+            Header="Roblox Upgrades"
+            Description="When disabled, an already installed Roblox client will not upgrade to newer versions.">
+            <ui:ToggleSwitch IsChecked="{Binding RobloxUpgrades, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl
+            Header="Static directory"
+            Description="Use a stable WindowsPlayer directory instead of a version-GUID directory. Changing this queues a clean install for the next launch.">
+            <ui:ToggleSwitch IsChecked="{Binding StaticRobloxDirectory, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl
+            Header="Channel"
+            Description="Roblox deployment channel. Keep this on production unless you know you need another channel.">
+            <TextBox Width="200" Padding="10,5,10,5" Text="{Binding RobloxChannel, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <ui:Card Margin="0,8,0,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" FontWeight="SemiBold" Text="Installed Version GUID" />
+                <TextBlock Grid.Column="1" Margin="20,0,0,0" Text="{Binding InstalledPlayerVersionGuid, Mode=OneWay}" TextWrapping="Wrap" />
+            </Grid>
+        </ui:Card>
+
+        <TextBlock Text="Launch behaviour" FontSize="20" FontWeight="Medium" Margin="0,12,0,4" />
+
+        <controls:OptionControl
+            Header="Close Crash Handler"
+            Description="Automatically closes RobloxCrashHandler.exe after Roblox starts to free a small amount of system usage. This never closes the game itself.">
+            <ui:ToggleSwitch IsChecked="{Binding CloseCrashHandler, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl 
+            Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}"
+            Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
+            <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl 
+            Header="{x:Static resources:Strings.Menu_Behaviour_BackgroundUpdates_Title}"
+            Description="{x:Static resources:Strings.Menu_Behaviour_BackgroundUpdates_Description}">
+            <ui:ToggleSwitch IsChecked="{Binding BackgroundUpdates, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl 
+            Header="{x:Static resources:Strings.Menu_Behaviour_ForceRobloxReinstall_Title}"
+            Description="{x:Static resources:Strings.Menu_Behaviour_ForceRobloxReinstall_Description}">
+            <controls:OptionControl.Style>
+                <Style TargetType="controls:OptionControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsRobloxInstallationMissing, Mode=OneTime}" Value="True">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </controls:OptionControl.Style>
+            <ui:ToggleSwitch IsChecked="{Binding ForceRobloxReinstallation, Mode=TwoWay}" />
+        </controls:OptionControl>
+    </StackPanel>
+</ui:UiPage>

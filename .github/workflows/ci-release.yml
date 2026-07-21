@@ -1,0 +1,38 @@
+name: CI (Release)
+
+# Push a version tag (e.g. v2.12.2) to build a self-contained Lovestrap.exe and
+# publish it as a GitHub Release. Installed copies auto-update from the latest release.
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Publish (self-contained, single file)
+      run: dotnet publish -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:CommitHash=${{ github.sha }} -p:CommitRef=${{ github.ref_type }}/${{ github.ref_name }} -r win-x64 -c Release --self-contained true .\Lovestrap\Lovestrap.csproj
+
+    - name: Stage binary
+      run: copy .\Lovestrap\bin\Release\net6.0-windows\win-x64\publish\Lovestrap.exe Lovestrap.exe
+
+    - name: Publish release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Lovestrap ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        files: Lovestrap.exe
